@@ -1,0 +1,4025 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>剑来动画·剧情解析台</title>
+  <style>
+    :root {
+      --ink-900: #0e1824;
+      --ink-850: #142233;
+      --ink-800: #1a2a3d;
+      --ink-700: rgba(22, 35, 51, 0.74);
+      --ink-600: rgba(30, 46, 65, 0.64);
+      --paper: #f5f1eb;
+      --paper-soft: rgba(245, 241, 235, 0.84);
+      --cliff: #6f95a8;
+      --cliff-strong: #8bb1c3;
+      --gold: #d6b06f;
+      --gold-soft: rgba(214, 176, 111, 0.2);
+      --cinnabar: #a45a5a;
+      --cinnabar-soft: rgba(164, 90, 90, 0.18);
+      --mist: rgba(255, 255, 255, 0.14);
+      --line: rgba(245, 241, 235, 0.2);
+      --shadow: 0 22px 70px rgba(8, 12, 18, 0.24);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --max-width: 1180px;
+      --transition: 180ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--paper);
+      background:
+        linear-gradient(180deg, rgba(250, 247, 242, 0.08), rgba(12, 23, 36, 0.18)),
+        radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.36), transparent 22%),
+        radial-gradient(circle at 68% 28%, rgba(136, 174, 195, 0.18), transparent 26%),
+        linear-gradient(135deg, rgba(8, 15, 24, 0.34), rgba(14, 25, 37, 0.52)),
+        url("45fabb00db6949c4ca690fb31500badf.jpg") center top / cover fixed no-repeat;
+      font-family: "Songti SC", "STSong", "Noto Serif SC", "Source Han Serif SC", "KaiTi", serif;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      width: 42vw;
+      height: 42vw;
+      pointer-events: none;
+      border-radius: 999px;
+      filter: blur(96px);
+      opacity: 0.22;
+      z-index: 0;
+    }
+
+    body::before {
+      top: -8vw;
+      left: -8vw;
+      background: rgba(255, 245, 225, 0.42);
+    }
+
+    body::after {
+      right: -10vw;
+      bottom: -12vw;
+      background: rgba(111, 149, 168, 0.28);
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 0 auto;
+      padding: 28px 0 48px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 22px;
+      padding: 22px clamp(18px, 3vw, 34px);
+      border: 1px solid rgba(245, 241, 235, 0.28);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06)),
+        linear-gradient(180deg, rgba(18, 31, 46, 0.66), rgba(20, 34, 52, 0.56));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px) saturate(120%);
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.95fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-side {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-copy {
+      display: grid;
+      align-content: start;
+      justify-items: start;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(214, 176, 111, 0.34);
+      background: rgba(255, 248, 236, 0.14);
+      color: var(--paper);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 0%, rgba(214, 176, 111, 0.14) 50%, transparent 100%),
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent 52%);
+      pointer-events: none;
+    }
+
+    .hero-title {
+      margin: 12px 0 0;
+      font-size: clamp(2rem, 4.6vw, 3.5rem);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-align: left;
+      color: var(--gold);
+      text-shadow: 0 6px 22px rgba(10, 14, 20, 0.28);
+    }
+
+    .hero-subtitle {
+      margin: 10px 0 0;
+      text-align: left;
+      color: var(--paper);
+      font-size: 1.02rem;
+      letter-spacing: 0.08em;
+      text-shadow: 0 2px 10px rgba(8, 12, 18, 0.22);
+    }
+
+    .hero-lead {
+      margin: 12px 0 0;
+      max-width: 52ch;
+      color: rgba(245, 241, 235, 0.84);
+      line-height: 1.75;
+      font-size: 0.96rem;
+    }
+
+    .hero-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .hero-step {
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(245, 241, 235, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      min-width: 0;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-step strong {
+      display: block;
+      color: var(--paper);
+      font-size: 0.88rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-step span {
+      color: rgba(245, 241, 235, 0.74);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .hero-meta {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+      justify-items: start;
+      color: var(--paper-soft);
+      font-size: 0.94rem;
+    }
+
+    .hero-meta-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero-panel {
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(245, 241, 235, 0.18);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05)),
+        linear-gradient(180deg, rgba(21, 34, 50, 0.62), rgba(24, 40, 58, 0.54));
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-panel-label {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: rgba(245, 241, 235, 0.66);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+    }
+
+    .hero-panel-title {
+      margin: 0;
+      color: var(--paper);
+      font-size: 1.08rem;
+      line-height: 1.5;
+    }
+
+    .hero-panel-text {
+      margin: 10px 0 0;
+      color: rgba(245, 241, 235, 0.8);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    .hero-panel-secondary {
+      background:
+        linear-gradient(145deg, rgba(255, 248, 236, 0.16), rgba(214, 176, 111, 0.04)),
+        linear-gradient(180deg, rgba(20, 31, 46, 0.58), rgba(22, 37, 55, 0.5));
+    }
+
+    .recent-link {
+      padding: 6px 12px;
+      border-radius: 999px;
+      color: var(--paper);
+      background: rgba(111, 149, 168, 0.22);
+      border: 1px solid rgba(139, 177, 195, 0.46);
+      transition: transform var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .recent-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(139, 177, 195, 0.72);
+      background: rgba(111, 149, 168, 0.32);
+    }
+
+    .top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .nav-tabs {
+      display: inline-flex;
+      gap: 10px;
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(20, 31, 46, 0.54);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(14px) saturate(120%);
+    }
+
+    .nav-tab {
+      padding: 10px 18px;
+      border-radius: 999px;
+      color: var(--paper-soft);
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+    }
+
+    .nav-tab.active {
+      background: linear-gradient(135deg, rgba(120, 164, 188, 0.9), rgba(88, 126, 150, 0.82));
+      color: #f6f2ea;
+      box-shadow: 0 10px 24px rgba(88, 126, 150, 0.24);
+    }
+
+    .nav-tab:hover {
+      transform: translateY(-1px);
+    }
+
+    .mode-pill {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(214, 176, 111, 0.34);
+      background: rgba(255, 247, 232, 0.16);
+      color: var(--paper);
+      font-size: 0.92rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .main-grid {
+      display: grid;
+      gap: 18px;
+      align-items: start;
+      transition: grid-template-columns 220ms ease;
+    }
+
+    .main-grid.with-panel {
+      grid-template-columns: minmax(360px, 0.92fr) minmax(420px, 1.08fr);
+    }
+
+    .selection-card,
+    .result-shell,
+    .settings-card,
+    .status-card,
+    .module-card,
+    .state-card,
+    .empty-card,
+    .loading-card,
+    .fallback-card,
+    .error-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05)),
+        linear-gradient(180deg, rgba(20, 31, 46, 0.72), rgba(22, 37, 55, 0.58));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px) saturate(125%);
+    }
+
+    .selection-card,
+    .result-shell,
+    .settings-card {
+      padding: clamp(18px, 3vw, 26px);
+    }
+
+    .selection-card {
+      transition: transform 220ms ease, width 220ms ease, box-shadow 220ms ease;
+    }
+
+    .main-grid.with-panel .selection-card {
+      transform: translateX(-8px);
+    }
+
+    .main-toolbar {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .main-mode-picker {
+      display: grid;
+      gap: 10px;
+      padding: 14px 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(245, 241, 235, 0.14);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)),
+        linear-gradient(180deg, rgba(23, 37, 54, 0.62), rgba(22, 36, 52, 0.5));
+      backdrop-filter: blur(12px);
+    }
+
+    .main-mode-label {
+      color: rgba(245, 241, 235, 0.72);
+      font-size: 0.86rem;
+    }
+
+    .main-mode-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mode-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .mode-chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 241, 235, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--paper-soft);
+      font-size: 0.84rem;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition), color var(--transition);
+    }
+
+    .mode-chip:hover {
+      transform: translateY(-1px);
+    }
+
+    .mode-chip.active {
+      border-color: rgba(170, 210, 228, 0.42);
+      background: linear-gradient(135deg, rgba(132, 176, 198, 0.22), rgba(255, 248, 236, 0.16));
+      color: var(--paper);
+    }
+
+    .section-heading {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 1.28rem;
+      color: var(--paper);
+    }
+
+    .section-subtitle {
+      margin: 6px 0 0;
+      color: var(--paper-soft);
+      font-size: 0.94rem;
+    }
+
+    .selection-overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.85fr);
+      gap: 14px;
+      margin: 18px 0 0;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(245, 241, 235, 0.14);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+        linear-gradient(180deg, rgba(24, 39, 58, 0.68), rgba(23, 37, 54, 0.56));
+      backdrop-filter: blur(12px);
+    }
+
+    .selection-overview-title {
+      margin: 0;
+      color: var(--paper);
+      font-size: 1.12rem;
+      line-height: 1.5;
+    }
+
+    .selection-overview-text {
+      margin: 8px 0 0;
+      color: rgba(245, 241, 235, 0.8);
+      line-height: 1.72;
+      font-size: 0.92rem;
+    }
+
+    .selection-overview-side {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .selection-meta-box {
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(245, 241, 235, 0.12);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .selection-meta-label {
+      display: block;
+      color: rgba(245, 241, 235, 0.6);
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .selection-meta-value {
+      color: var(--paper);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+
+    .season-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+    }
+
+    .season-btn {
+      padding: 18px 18px 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(245, 241, 235, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      text-align: left;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition);
+      backdrop-filter: blur(10px);
+    }
+
+    .season-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(214, 176, 111, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .season-btn.active {
+      color: #f8f5ee;
+      border-color: rgba(139, 177, 195, 0.92);
+      background: linear-gradient(135deg, rgba(126, 170, 192, 0.88), rgba(73, 108, 131, 0.78));
+      box-shadow: 0 18px 32px rgba(87, 127, 151, 0.24);
+    }
+
+    .season-name {
+      display: block;
+      font-size: 1.08rem;
+      margin-bottom: 6px;
+    }
+
+    .season-range {
+      color: rgba(248, 245, 238, 0.76);
+      font-size: 0.9rem;
+    }
+
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .episode-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 132px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(111, 149, 168, 0.44);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)),
+        linear-gradient(160deg, rgba(23, 36, 53, 0.72), rgba(28, 46, 66, 0.62));
+      text-align: left;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+      backdrop-filter: blur(12px);
+    }
+
+    .episode-card.disabled {
+      opacity: 0.62;
+      cursor: default;
+    }
+
+    .episode-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(149, 191, 211, 0.82);
+      box-shadow: 0 16px 28px rgba(12, 18, 27, 0.2);
+    }
+
+    .episode-card.disabled:hover {
+      transform: none;
+      border-color: rgba(111, 149, 168, 0.44);
+      box-shadow: none;
+    }
+
+    .episode-card.active {
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05)),
+        linear-gradient(160deg, rgba(104, 144, 166, 0.84), rgba(42, 67, 90, 0.82));
+      border-color: rgba(170, 210, 228, 0.94);
+      box-shadow: 0 18px 30px rgba(87, 127, 151, 0.24);
+    }
+
+    .episode-card.latest {
+      border-color: rgba(201, 169, 110, 0.88);
+      box-shadow: inset 0 0 0 1px rgba(201, 169, 110, 0.2);
+    }
+
+    .episode-num {
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 600;
+      color: var(--paper);
+      margin-bottom: 8px;
+    }
+
+    .episode-title {
+      color: rgba(232, 224, 212, 0.88);
+      font-size: 0.96rem;
+      min-height: 2.4em;
+    }
+
+    .episode-arc {
+      margin-top: 10px;
+      color: rgba(232, 224, 212, 0.56);
+      font-size: 0.84rem;
+    }
+
+    .episode-tags-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .episode-mini-tag {
+      padding: 3px 7px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      color: rgba(245, 241, 235, 0.78);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(245, 241, 235, 0.12);
+    }
+
+    .episode-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      background: rgba(201, 169, 110, 0.14);
+      color: var(--gold);
+      border: 1px solid rgba(201, 169, 110, 0.38);
+    }
+
+    .episode-cache {
+      position: absolute;
+      right: 14px;
+      bottom: 12px;
+      color: rgba(232, 224, 212, 0.72);
+      font-size: 0.8rem;
+    }
+
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin: 18px 0 6px;
+      justify-content: space-between;
+    }
+
+    .action-bar-main,
+    .action-bar-side {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition);
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.56;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(125, 168, 191, 0.96), rgba(92, 131, 155, 0.94));
+      color: #f8f5ee;
+      border-color: rgba(170, 210, 228, 0.52);
+      box-shadow: 0 14px 28px rgba(87, 127, 151, 0.22);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(245, 241, 235, 0.18);
+      color: var(--paper);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-danger {
+      background: rgba(139, 58, 58, 0.14);
+      border-color: rgba(139, 58, 58, 0.42);
+      color: #f3d1d1;
+    }
+
+    .btn-linklike {
+      padding: 8px 10px;
+      color: var(--paper-soft);
+      font-size: 0.9rem;
+    }
+
+    .micro-note {
+      color: var(--paper-soft);
+      font-size: 0.9rem;
+    }
+
+    .result-shell {
+      display: grid;
+      gap: 16px;
+      min-height: 420px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.05)),
+        linear-gradient(180deg, rgba(18, 29, 43, 0.84), rgba(20, 33, 49, 0.72));
+      --reading-size: 16px;
+      --reading-leading: 1.82;
+      position: sticky;
+      top: 18px;
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      animation: slideInPanel 240ms ease;
+    }
+
+    .result-shell.scale-compact {
+      --reading-size: 15px;
+      --reading-leading: 1.72;
+    }
+
+    .result-shell.scale-standard {
+      --reading-size: 16px;
+      --reading-leading: 1.82;
+    }
+
+    .result-shell.scale-comfortable {
+      --reading-size: 17px;
+      --reading-leading: 1.92;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding-bottom: 4px;
+    }
+
+    .result-actions-left {
+      display: grid;
+      gap: 4px;
+    }
+
+    .result-actions-right {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .result-title {
+      margin: 0;
+      font-size: 1.08rem;
+      color: var(--paper);
+    }
+
+    .panel-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 241, 235, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(245, 241, 235, 0.76);
+      font-size: 0.8rem;
+    }
+
+    .panel-close {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 241, 235, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--paper-soft);
+      font-size: 0.82rem;
+    }
+
+    .tool-chip-group {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(245, 241, 235, 0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .tool-chip {
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 241, 235, 0.12);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--paper-soft);
+      font-size: 0.82rem;
+    }
+
+    .tool-chip.active {
+      background: linear-gradient(135deg, rgba(255, 248, 236, 0.2), rgba(125, 168, 191, 0.18));
+      border-color: rgba(170, 210, 228, 0.34);
+      color: var(--paper);
+    }
+
+    .info-card {
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(214, 176, 111, 0.3);
+      background:
+        linear-gradient(135deg, rgba(255, 248, 236, 0.16), rgba(214, 176, 111, 0.06)),
+        linear-gradient(180deg, rgba(22, 35, 50, 0.68), rgba(24, 40, 58, 0.56));
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px 18px;
+      margin-top: 14px;
+    }
+
+    .info-item {
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .info-label {
+      display: block;
+      margin-bottom: 6px;
+      color: rgba(232, 224, 212, 0.62);
+      font-size: 0.82rem;
+    }
+
+    .info-value {
+      color: var(--paper);
+      line-height: var(--reading-leading);
+      font-size: var(--reading-size);
+      word-break: break-word;
+    }
+
+    .banner {
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(245, 241, 235, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--paper);
+      line-height: var(--reading-leading);
+      font-size: var(--reading-size);
+    }
+
+    .banner.warning {
+      border-color: rgba(201, 169, 110, 0.34);
+      background: rgba(201, 169, 110, 0.08);
+    }
+
+    .banner.error {
+      border-color: rgba(139, 58, 58, 0.42);
+      background: rgba(139, 58, 58, 0.14);
+      color: #f6dcdc;
+    }
+
+    .banner.success {
+      border-color: rgba(91, 140, 122, 0.42);
+      background: rgba(91, 140, 122, 0.14);
+    }
+
+    .module-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .module-card {
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+    }
+
+    .module-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 18px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .module-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .module-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cliff-strong);
+      box-shadow: 0 0 16px rgba(117, 168, 148, 0.42);
+      flex: 0 0 auto;
+    }
+
+    .module-head h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      color: var(--paper);
+    }
+
+    .module-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: end;
+    }
+
+    .module-toggle,
+    .copy-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 241, 235, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--paper-soft);
+      font-size: 0.82rem;
+    }
+
+    .module-body {
+      padding: 0 18px 18px;
+      line-height: var(--reading-leading);
+    }
+
+    .module-card.collapsed .module-body {
+      display: none;
+    }
+
+    .tag-row,
+    .source-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag,
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      border: 1px solid rgba(232, 224, 212, 0.16);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--paper);
+    }
+
+    .tag.source-animation {
+      border-color: rgba(91, 140, 122, 0.34);
+      background: rgba(91, 140, 122, 0.12);
+    }
+
+    .tag.source-novel {
+      border-color: rgba(201, 169, 110, 0.34);
+      background: rgba(201, 169, 110, 0.12);
+    }
+
+    .tag.source-infer {
+      border-color: rgba(139, 58, 58, 0.36);
+      background: rgba(139, 58, 58, 0.13);
+    }
+
+    .summary-text {
+      margin: 0 0 14px;
+      color: var(--paper);
+      white-space: pre-wrap;
+      font-size: var(--reading-size);
+      line-height: var(--reading-leading);
+    }
+
+    .list-block,
+    .qa-list,
+    .scene-list,
+    .character-list,
+    .highlight-list,
+    .spoiler-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .list-item,
+    .qa-card,
+    .scene-card,
+    .character-card,
+    .quote-card,
+    .spoiler-box {
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(245, 241, 235, 0.12);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .list-item strong,
+    .qa-question,
+    .scene-title,
+    .character-name {
+      color: #f7f3ec;
+    }
+
+    .qa-question {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .qa-answer,
+    .scene-card p,
+    .character-card p,
+    .spoiler-box p,
+    .quote-context {
+      margin: 0;
+      color: rgba(232, 224, 212, 0.9);
+      font-size: var(--reading-size);
+      line-height: var(--reading-leading);
+    }
+
+    .scene-title {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .scene-section {
+      margin-top: 10px;
+    }
+
+    .scene-section-label {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(232, 224, 212, 0.6);
+      font-size: 0.82rem;
+    }
+
+    .character-card {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+      color: var(--paper);
+      background: linear-gradient(135deg, rgba(131, 173, 195, 0.9), rgba(78, 112, 137, 0.96));
+      border: 1px solid rgba(170, 210, 228, 0.58);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+
+    .character-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .gold-tag {
+      background: rgba(201, 169, 110, 0.12);
+      border-color: rgba(201, 169, 110, 0.34);
+      color: var(--gold);
+    }
+
+    .quote-card {
+      border-left: 3px solid var(--cliff);
+      padding-left: 18px;
+    }
+
+    .quote-text {
+      margin: 0;
+      font-size: calc(var(--reading-size) + 0.08rem);
+      color: #f8f5ef;
+      font-style: italic;
+      line-height: calc(var(--reading-leading) - 0.04);
+    }
+
+    .quote-meta {
+      margin-top: 10px;
+      color: rgba(232, 224, 212, 0.7);
+      font-size: 0.88rem;
+    }
+
+    .spoiler-warning {
+      margin-bottom: 14px;
+      padding: 13px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(139, 58, 58, 0.48);
+      background: rgba(139, 58, 58, 0.14);
+      color: #f0d2d2;
+      line-height: 1.6;
+    }
+
+    .empty-card,
+    .loading-card,
+    .fallback-card,
+    .error-card {
+      padding: 30px clamp(18px, 3vw, 28px);
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .state-inner {
+      max-width: 560px;
+      display: grid;
+      gap: 16px;
+      justify-items: center;
+    }
+
+    .state-title {
+      margin: 0;
+      color: var(--paper);
+      font-size: 1.28rem;
+    }
+
+    .state-text {
+      margin: 0;
+      line-height: 1.8;
+      color: var(--paper-soft);
+      font-size: var(--reading-size);
+    }
+
+    .state-illustration {
+      width: min(100%, 280px);
+      opacity: 0.9;
+    }
+
+    .loading-notes {
+      min-height: 1.8em;
+      color: rgba(232, 224, 212, 0.78);
+    }
+
+    .fallback-raw {
+      width: 100%;
+      text-align: left;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(245, 241, 235, 0.1);
+      color: var(--paper);
+      line-height: 1.8;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: var(--reading-size);
+      line-height: var(--reading-leading);
+    }
+
+    .settings-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .status-card {
+      padding: 20px;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .status-item {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(245, 241, 235, 0.1);
+    }
+
+    .status-item strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--paper);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .field-label {
+      color: rgba(232, 224, 212, 0.76);
+      font-size: 0.92rem;
+    }
+
+    .field-control,
+    .field-select {
+      width: 100%;
+      padding: 13px 14px;
+      color: var(--paper);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(245, 241, 235, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .field-control:focus,
+    .field-select:focus {
+      border-color: rgba(117, 168, 148, 0.8);
+      box-shadow: 0 0 0 3px rgba(91, 140, 122, 0.14);
+    }
+
+    .input-row,
+    .inline-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .input-row .field-control {
+      flex: 1 1 300px;
+    }
+
+    .setting-feedback {
+      min-height: 1.6em;
+      color: var(--paper-soft);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .setting-feedback.success {
+      color: #d6eadf;
+    }
+
+    .setting-feedback.error {
+      color: #f2cfcf;
+    }
+
+    .mode-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .mode-option {
+      text-align: left;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(245, 241, 235, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      transition: transform var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .mode-option:hover {
+      transform: translateY(-2px);
+    }
+
+    .mode-option.active {
+      border-color: rgba(139, 177, 195, 0.84);
+      background: rgba(125, 168, 191, 0.2);
+      box-shadow: inset 0 0 0 1px rgba(170, 210, 228, 0.22);
+    }
+
+    .mode-option-title {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      color: var(--paper);
+    }
+
+    .mode-option-desc {
+      color: var(--paper-soft);
+      line-height: 1.7;
+      font-size: 0.9rem;
+    }
+
+    .cache-note {
+      margin-top: 8px;
+      color: var(--paper-soft);
+      line-height: 1.8;
+      font-size: 0.92rem;
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 40;
+      display: grid;
+      gap: 10px;
+      width: min(360px, calc(100vw - 32px));
+    }
+
+    .toast {
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(245, 241, 235, 0.16);
+      background: rgba(25, 38, 56, 0.8);
+      color: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .toast.success {
+      border-color: rgba(91, 140, 122, 0.48);
+    }
+
+    .toast.error {
+      border-color: rgba(139, 58, 58, 0.52);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .float {
+      animation: floatY 3.2s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .pulse {
+      animation: pulseGlow 2.2s ease-in-out infinite;
+    }
+
+    @keyframes slideInPanel {
+      from {
+        opacity: 0;
+        transform: translateX(26px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-shell {
+        width: min(calc(100% - 20px), var(--max-width));
+        padding-top: 18px;
+      }
+
+      .hero {
+        padding: 22px 16px;
+      }
+
+      .hero-grid,
+      .selection-overview {
+        grid-template-columns: 1fr;
+      }
+
+      .main-grid.with-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .main-grid.with-panel .selection-card {
+        transform: none;
+      }
+
+      .hero-title,
+      .hero-subtitle {
+        text-align: center;
+      }
+
+      .hero-copy {
+        justify-items: center;
+      }
+
+      .hero-lead {
+        text-align: center;
+      }
+
+      .hero-steps {
+        justify-content: center;
+      }
+
+      .hero-kicker,
+      .hero-meta {
+        justify-items: center;
+      }
+
+      .hero-meta-line {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .top-nav,
+      .result-actions,
+      .action-bar,
+      .section-heading,
+      .module-head,
+      .input-row,
+      .inline-actions {
+        align-items: stretch;
+      }
+
+      .nav-tabs,
+      .mode-pill {
+        width: 100%;
+      }
+
+      .nav-tabs {
+        justify-content: space-between;
+      }
+
+      .module-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .result-actions-right,
+      .action-bar-main,
+      .action-bar-side {
+        width: 100%;
+      }
+
+      .main-mode-row {
+        align-items: stretch;
+      }
+
+      .mode-chip-row {
+        width: 100%;
+      }
+
+      .result-shell {
+        position: static;
+        max-height: none;
+      }
+
+      .episode-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .character-card {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="toastStack" class="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const CONFIG = {
+        cacheVersion: "1.0.0",
+        promptVersion: "1.0.0",
+        requestTimeoutMs: 60000,
+        cacheTtlMs: 15 * 24 * 60 * 60 * 1000,
+        loadMessages: [
+          "正在翻找本集脉络...",
+          "正在梳理人物关系...",
+          "正在提取伏笔与后续...",
+          "正在整理可读版本..."
+        ]
+      };
+
+      const STORAGE_KEYS = {
+        apiKey: "jljq_apiKey",
+        deepseekKey: "jljq_deepseekKey",
+        model: "jljq_model",
+        mode: "jljq_mode",
+        readingScale: "jljq_readingScale",
+        lastEpisode: "jljq_lastEpisode",
+        cacheIndex: "jljq_cache_index"
+      };
+
+      const MODEL_OPTIONS = [
+        "deepseek/deepseek-chat",
+        "anthropic/claude-sonnet-4",
+        "google/gemini-2.5-pro"
+      ];
+
+      const MODE_OPTIONS = [
+        {
+          id: "focus_current",
+          label: "只看本集",
+          desc: "尽量围绕本集动画已出现内容解释，减少严重剧透。",
+          promptFocus: [
+            "优先解释本集动画已经明确呈现的内容，只在必要时补一句前情，不主动展开后续命运。",
+            "“你可能没看懂的地方”优先回答本集里真正影响理解的疑点，不要大段延伸到后续剧情。",
+            "“伏笔与后续”模块只保留帮助理解本集的轻量提示，避免明显剧透。"
+          ]
+        },
+        {
+          id: "contextual",
+          label: "看懂前后因果",
+          desc: "默认模式，补清人物关系、设定来源与前后因果。",
+          promptFocus: [
+            "把本集事件和前面关键剧情、人物动机、设定来源串起来，重点讲“为什么会走到这一步”。",
+            "“你可能没看懂的地方”要优先覆盖因果链、人物关系变化、设定解释。",
+            "“伏笔与后续”可以提示后面会怎么兑现，但仍以帮助理解当集为主。"
+          ]
+        },
+        {
+          id: "deep_spoiler",
+          label: "原著深挖版",
+          desc: "接受剧透，适合想了解后续命运与改编差异的观众。",
+          promptFocus: [
+            "允许结合原著讲清后续剧情线、角色命运与改编差异，不要只点到为止。",
+            "“伏笔与后续”模块可以展开讲因果链、兑现方式与人物后续位置。",
+            "在保持结构清晰的前提下，优先给出真正有信息量的深挖，而不是重复概要。"
+          ]
+        }
+      ];
+
+      const READING_SCALES = [
+        { id: "compact", label: "紧凑", size: "15px", leading: "1.72" },
+        { id: "standard", label: "标准", size: "16px", leading: "1.82" },
+        { id: "comfortable", label: "舒展", size: "17px", leading: "1.92" }
+      ];
+
+      const SOURCE_LABELS = {
+        "动画直接内容": "动画直接内容",
+        "原著补充": "原著补充",
+        "推断": "推断"
+      };
+
+      const CONFIDENCE_LABELS = {
+        high: "可信度：高",
+        medium: "可信度：中",
+        low: "可信度：低"
+      };
+
+      const SPOILER_LABELS = {
+        none: "无剧透",
+        light: "轻剧透",
+        heavy: "明显剧透"
+      };
+
+      const SYSTEM_PROMPT = `你是一个《剑来》的资深读者和剧情分析师，对烽火戏诸侯原著有系统理解，也了解《剑来》动画的叙事方式。你的任务不是复述剧情，而是帮助动画观众“看懂这一集”。
+
+你的输出原则如下：
+
+1. 语言要通俗、具体、像一个真正懂行的人在讲，不要写成空泛的分析腔。
+2. 优先区分“本集动画已明确呈现的内容”和“基于原著进行的补充/推断”。
+3. 对于可以确认属于本集动画直接呈现的内容，使用确定语气。
+4. 对于不能确认是否已经在本集动画中出现、但可依据原著和动画进度进行解释的内容，必须标注为“原著补充”或“推断”，不能混写成已经在本集明确演出的事实。
+5. 本集概要必须优先围绕动画当集实际内容，不要把未来剧情误写成本集已经发生。
+6. 不要写空话套话，例如“这一集非常重要”“体现了角色成长”“埋下伏笔”等，除非你明确说明为什么重要、成长体现在哪、伏笔后续如何兑现。
+7. 角色关系要讲清楚，不要默认用户记得前面所有剧情。
+8. 剧透部分要有价值，重点讲清楚因果链，而不是简单泄露结局。
+9. 如果你对这一集动画的具体改编内容无法完全确认，可以结合原著对应段落与动画进度做合理推断，但必须在对应字段中标注 sourceType 与 confidence。
+10. 返回内容必须是合法 JSON，不要输出 markdown 代码块，不要输出额外解释。
+
+请严格返回以下 JSON 结构：
+{
+  "summary": {
+    "text": "本集概要",
+    "originalChapters": "对应原著章节范围",
+    "sourceType": "动画直接内容/原著补充/推断",
+    "confidence": "high/medium/low"
+  },
+  "coreConflict": [
+    {
+      "point": "本集核心矛盾点",
+      "sourceType": "动画直接内容/原著补充/推断",
+      "confidence": "high/medium/low"
+    }
+  ],
+  "confusingPoints": [
+    {
+      "question": "观众可能没看懂的问题",
+      "answer": "具体解答",
+      "relatedEpisode": "关联集数，如无则留空字符串",
+      "sourceType": "动画直接内容/原著补充/推断",
+      "spoilerLevel": "none/light/heavy",
+      "confidence": "high/medium/low"
+    }
+  ],
+  "scenes": [
+    {
+      "title": "场景标题",
+      "description": "这场戏发生了什么",
+      "characters": ["角色1", "角色2"],
+      "significance": "这场戏为什么重要",
+      "sourceType": "动画直接内容/原著补充/推断",
+      "confidence": "high/medium/low"
+    }
+  ],
+  "characters": [
+    {
+      "name": "角色名",
+      "identity": "一句话身份简介",
+      "thisEpisode": "本集中做了什么",
+      "relationChanges": "与其他角色的关系变化，如无可为空字符串",
+      "isNew": false,
+      "sourceType": "动画直接内容/原著补充/推断",
+      "confidence": "high/medium/low"
+    }
+  ],
+  "highlights": [
+    {
+      "quote": "台词或场景描述",
+      "speaker": "说话人",
+      "context": "场景背景",
+      "deeperMeaning": "更深层含义，如无可为空字符串",
+      "spoilerLevel": "none/light/heavy",
+      "sourceType": "动画直接内容/原著补充/推断",
+      "confidence": "high/medium/low"
+    }
+  ],
+  "spoilers": {
+    "warning": "以下内容包含原著剧透",
+    "foreshadowing": [
+      {
+        "hint": "本集埋下的伏笔",
+        "futurePayoff": "后续如何兑现",
+        "sourceType": "原著补充/推断",
+        "confidence": "high/medium/low"
+      }
+    ],
+    "futureDirection": {
+      "text": "当前剧情线在原著中的后续走向",
+      "sourceType": "原著补充/推断",
+      "confidence": "high/medium/low"
+    },
+    "characterFates": {
+      "text": "相关角色命运走向",
+      "sourceType": "原著补充/推断",
+      "confidence": "high/medium/low"
+    },
+    "adaptationDifferences": {
+      "text": "动画与原著的差异，如不明确可写空字符串",
+      "sourceType": "原著补充/推断",
+      "confidence": "high/medium/low"
+    }
+  }
+}`;
+
+      const EPISODE_DATA = buildEpisodeData();
+
+      const safeStorage = {
+        get(key) {
+          try {
+            return window.localStorage.getItem(key);
+          } catch (error) {
+            return null;
+          }
+        },
+        set(key, value) {
+          try {
+            window.localStorage.setItem(key, value);
+            return true;
+          } catch (error) {
+            return false;
+          }
+        },
+        remove(key) {
+          try {
+            window.localStorage.removeItem(key);
+            return true;
+          } catch (error) {
+            return false;
+          }
+        },
+        getJSON(key, fallback) {
+          const raw = this.get(key);
+          if (!raw) {
+            return fallback;
+          }
+          try {
+            return JSON.parse(raw);
+          } catch (error) {
+            return fallback;
+          }
+        },
+        setJSON(key, value) {
+          try {
+            window.localStorage.setItem(key, JSON.stringify(value));
+            return true;
+          } catch (error) {
+            return false;
+          }
+        }
+      };
+
+      const state = {
+        activeTab: "main",
+        selectedSeasonIndex: 0,
+        selectedEpisodeNum: null,
+        currentMode: readSetting(STORAGE_KEYS.mode, "contextual"),
+        currentModel: readSetting(STORAGE_KEYS.model, MODEL_OPTIONS[0]),
+        readingScale: readSetting(STORAGE_KEYS.readingScale, "standard"),
+        loading: false,
+        loadingMessageIndex: 0,
+        loadingTicker: null,
+        activeController: null,
+        requestToken: 0,
+        result: null,
+        resultFeedback: null,
+        moduleOpen: {},
+        revealedFields: {
+          openrouter: false,
+          deepseek: false
+        },
+        feedback: {
+          openrouter: "",
+          openrouterType: "",
+          deepseek: "",
+          deepseekType: "",
+          settings: "",
+          settingsType: ""
+        },
+        toasts: [],
+        recentEpisode: safeStorage.getJSON(STORAGE_KEYS.lastEpisode, null)
+      };
+
+      const app = document.getElementById("app");
+      const toastStack = document.getElementById("toastStack");
+
+      init();
+
+      function init() {
+        try {
+          resetModuleOpen();
+          render();
+          app.addEventListener("click", handleClick);
+        } catch (error) {
+          renderFatalError(error);
+        }
+      }
+
+      function render() {
+        try {
+          app.innerHTML = `
+            <div class="app-shell">
+              ${renderHero()}
+              ${renderTopNav()}
+              ${renderMainPage()}
+              ${renderSettingsPage()}
+            </div>
+          `;
+          renderToasts();
+        } catch (error) {
+          renderFatalError(error);
+        }
+      }
+
+      function renderFatalError(error) {
+        if (app) {
+          app.innerHTML = `
+            <div class="app-shell">
+              <div class="error-card" style="margin-top: 18px;">
+                <div class="state-inner">
+                  ${renderMistIllustration()}
+                  <h3 class="state-title">页面初始化失败</h3>
+                  <p class="state-text">脚本启动时出现异常，已阻止白屏。请刷新页面重试；如果仍然出现，可把这段信息发给我继续修。</p>
+                  <pre class="fallback-raw">${escapeHTML(error && error.message ? error.message : "未知错误")}</pre>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      function renderHero() {
+        const coverage = getCoverageText();
+        const recent = getRecentEpisodeText();
+        const selected = getSelectedEpisodeMeta();
+        const latest = getLatestAvailableEpisode();
+        return `
+          <header class="hero">
+            <div class="hero-grid">
+              <div class="hero-copy">
+                <div class="hero-kicker">一集看完，十分钟补全前因后果</div>
+                <h1 class="hero-title">剑来动画·剧情解析台</h1>
+                <p class="hero-subtitle">看不懂的地方，这里都有答案</p>
+                <p class="hero-lead">这不是简单复述剧情，而是把你最容易看漏的动机、设定、人物关系和伏笔回收点拆开讲清楚，尽量让每一集都能快速补全上下文。</p>
+                <div class="hero-steps">
+                  <div class="hero-step"><strong>先抓主线</strong><span>用概要和核心矛盾快速定位这一集到底在讲什么。</span></div>
+                  <div class="hero-step"><strong>再补因果</strong><span>重点解释人物动机、前情关系和容易忽略的暗线。</span></div>
+                  <div class="hero-step"><strong>最后看后手</strong><span>按你的模式决定伏笔和剧透展开到什么程度。</span></div>
+                </div>
+                <div class="hero-meta">
+                  <div class="hero-meta-line">${coverage}</div>
+                  ${recent ? `<div class="hero-meta-line">${recent}</div>` : ""}
+                </div>
+              </div>
+              <aside class="hero-side">
+                <div class="hero-panel">
+                  <span class="hero-panel-label">当前待解析</span>
+                  <h3 class="hero-panel-title">${selected ? escapeHTML(selected.fullTitle) : "还没选剧集"}</h3>
+                  <p class="hero-panel-text">${selected ? escapeHTML(selected.focus) : "从下方先选季数与集数，再生成结构化解析。默认模式会优先帮你把人物关系和前后因果讲明白。"}</p>
+                  ${selected ? `<div class="tag-row" style="margin-top: 12px;">${selected.arc ? `<span class="tag">篇章：${escapeHTML(selected.arc)}</span>` : ""}${selected.tags.map((tag) => `<span class="tag">${escapeHTML(tag)}</span>`).join("")}</div>` : ""}
+                </div>
+                <div class="hero-panel hero-panel-secondary">
+                  <span class="hero-panel-label">当前收录状态</span>
+                  <h3 class="hero-panel-title">${latest ? escapeHTML(`${latest.seasonName}·第${latest.num}集《${latest.shortTitle}》`) : "暂无已播剧集"}</h3>
+                  <p class="hero-panel-text">截至 ${escapeHTML(EPISODE_DATA.updatedAsOf)}，页面优先收录已播剧集，并把本地元数据一并喂给模型，减少空泛复述。</p>
+                </div>
+              </aside>
+            </div>
+          </header>
+        `;
+      }
+
+      function renderTopNav() {
+        return `
+          <div class="top-nav">
+            <div class="nav-tabs" role="tablist" aria-label="页面切换">
+              <button class="nav-tab ${state.activeTab === "main" ? "active" : ""}" data-action="switch-tab" data-tab="main" role="tab" aria-selected="${state.activeTab === "main"}">解析台</button>
+              <button class="nav-tab ${state.activeTab === "settings" ? "active" : ""}" data-action="switch-tab" data-tab="settings" role="tab" aria-selected="${state.activeTab === "settings"}">设置</button>
+            </div>
+            <div class="mode-pill">当前模式：${escapeHTML(getModeLabel(state.currentMode))}</div>
+          </div>
+        `;
+      }
+
+      function renderMainPage() {
+        const season = EPISODE_DATA.seasons[state.selectedSeasonIndex];
+        const currentCache = getCurrentCache();
+        const currentResult = renderResultArea(currentCache);
+        const hasPanel = Boolean(state.selectedEpisodeNum);
+        return `
+          <section class="page ${state.activeTab === "main" ? "active" : ""}">
+            <div class="main-toolbar">
+              ${renderMainModePicker()}
+            </div>
+            <div class="main-grid ${hasPanel ? "with-panel" : ""}">
+              <div class="selection-card">
+                <div class="section-heading">
+                  <div>
+                    <h2 class="section-title">先选季数，再挑一集</h2>
+                    <p class="section-subtitle">默认模式会优先帮你梳理本集与前后剧情的因果关系。</p>
+                  </div>
+                </div>
+                <div class="season-row">
+                  ${EPISODE_DATA.seasons.map((item, index) => `
+                    <button class="season-btn ${index === state.selectedSeasonIndex ? "active" : ""}" data-action="select-season" data-season-index="${index}">
+                      <span class="season-name">${escapeHTML(item.name)}</span>
+                      <span class="season-range">${escapeHTML(item.rangeText || `第1-${item.episodes.length}集`)}</span>
+                      <span class="section-subtitle" style="display:block; margin-top: 8px; font-size: 0.84rem;">${escapeHTML(item.hook || "")}</span>
+                    </button>
+                  `).join("")}
+                </div>
+                ${renderSelectionOverview(season)}
+                <div class="section-heading" style="margin-top: 22px;">
+                  <div>
+                    <h2 class="section-title">${escapeHTML(season.name)}剧集</h2>
+                    <p class="section-subtitle">卡片会标出最新一集、缓存状态和这一段剧情的题眼。</p>
+                  </div>
+                </div>
+                <div class="episode-grid">
+                  ${season.episodes.map((episode) => renderEpisodeCard(season, episode)).join("")}
+                </div>
+                ${renderActionBar(currentCache)}
+              </div>
+              ${hasPanel ? `
+                <aside class="result-shell scale-${escapeHTML(state.readingScale)}">
+                  ${currentResult}
+                </aside>
+              ` : ""}
+            </div>
+          </section>
+        `;
+      }
+
+      function renderMainModePicker() {
+        const active = MODE_OPTIONS.find((mode) => mode.id === state.currentMode) || MODE_OPTIONS[1];
+        return `
+          <div class="main-mode-picker">
+            <div class="main-mode-label">主页面也可以直接切换解析模式，不用专门进设置。</div>
+            <div class="main-mode-row">
+              <div class="mode-chip-row">
+                ${MODE_OPTIONS.map((mode) => `
+                  <button class="mode-chip ${mode.id === state.currentMode ? "active" : ""}" data-action="set-mode" data-mode="${mode.id}">
+                    ${escapeHTML(mode.label)}
+                  </button>
+                `).join("")}
+              </div>
+              <div class="micro-note">${escapeHTML(getModeShortFocus(active.id))}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderEpisodeCard(season, episode) {
+        const selected = season.index === state.selectedSeasonIndex && episode.num === state.selectedEpisodeNum;
+        const cacheExists = hasCacheForEpisode(season.name, episode.num);
+        return `
+          <button class="episode-card ${selected ? "active" : ""} ${episode.isLatest ? "latest" : ""} ${episode.status !== "available" ? "disabled" : ""}" data-action="select-episode" data-season-index="${season.index}" data-episode-num="${episode.num}" ${episode.status !== "available" ? "disabled" : ""}>
+            ${episode.isLatest ? '<span class="episode-badge">NEW</span>' : ""}
+            <div class="episode-num">${episode.num}</div>
+            <div class="episode-title">${escapeHTML(episode.shortTitle)}</div>
+            <div class="episode-arc">${escapeHTML(episode.arc)}</div>
+            ${episode.tags.length ? `<div class="episode-tags-preview">${episode.tags.slice(0, 2).map((tag) => `<span class="episode-mini-tag">${escapeHTML(tag)}</span>`).join("")}</div>` : ""}
+            ${cacheExists ? '<div class="episode-cache">已缓存</div>' : ""}
+          </button>
+        `;
+      }
+
+      function renderActionBar(currentCache) {
+        if (!state.selectedEpisodeNum) {
+          return "";
+        }
+        const selected = getSelectedEpisodeMeta();
+        return `
+          <div class="action-bar">
+            <div class="action-bar-side">
+              <span class="micro-note">当前已选：${escapeHTML(selected ? selected.fullTitle : getSelectionLabel())} · 主要操作已移到右侧阅读面板顶部。</span>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderResultArea(currentCache) {
+        if (!state.selectedEpisodeNum) {
+          return renderEmptyState();
+        }
+        if (state.loading) {
+          return renderLoadingState();
+        }
+        if (state.result && state.result.kind === "error") {
+          return renderErrorState(state.result.message);
+        }
+        if (state.result && state.result.kind === "fallback") {
+          return renderFallbackResult(state.result);
+        }
+        if (state.result && state.result.kind === "structured") {
+          return renderStructuredResult(state.result);
+        }
+        if (currentCache) {
+          return renderStructuredResult(cacheToResult(currentCache, true));
+        }
+        const selected = getSelectedEpisodeMeta();
+        const hasCache = Boolean(currentCache);
+        return `
+          <div class="result-actions">
+            <div class="result-actions-left">
+              <div class="panel-kicker">侧边阅读面板</div>
+              <div class="micro-note">当前展示：${escapeHTML(selected ? selected.fullTitle : getSelectionLabel())}</div>
+            </div>
+            <div class="result-actions-right">
+              <button class="btn btn-primary" data-action="generate" ${state.loading ? "disabled" : ""}>生成本集解析</button>
+              ${hasCache ? `<button class="copy-btn" data-action="view-cache">查看缓存</button>` : ""}
+              ${hasCache ? `<button class="copy-btn" data-action="regenerate">重新生成</button>` : ""}
+              <button class="panel-close" data-action="close-panel">关闭面板</button>
+            </div>
+          </div>
+          <div class="empty-card">
+            <div class="state-inner">
+              ${renderScrollIllustration()}
+              <h3 class="state-title">这集还没有展开解析</h3>
+              <p class="state-text">左侧已经选中了 ${escapeHTML(selected ? selected.fullTitle : getSelectionLabel())}。点击“生成本集解析”后，内容会直接在这个侧边阅读面板里展开，不用再往下翻页面。</p>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderEmptyState() {
+        return `
+          <div class="empty-card">
+            <div class="state-inner">
+              ${renderScrollIllustration()}
+              <h3 class="state-title">选一集，为你拆解每一处玄机</h3>
+              <p class="state-text">从上方季数和集数卡片里选中一集后，就能生成结构化解析。即使模型返回格式不稳，这里也会自动降级为原文展示，不会白屏。</p>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderLoadingState() {
+        const selected = getSelectedEpisodeMeta();
+        return `
+          <div class="result-actions">
+            <div class="result-actions-left">
+              <div class="panel-kicker">侧边阅读面板</div>
+              <div class="micro-note">正在准备：${escapeHTML(selected ? selected.fullTitle : getSelectionLabel())}</div>
+            </div>
+            <div class="result-actions-right">
+              <button class="btn btn-primary" disabled>解析生成中...</button>
+              <button class="btn btn-danger" data-action="cancel-request">取消生成</button>
+              <button class="panel-close" data-action="close-panel">关闭面板</button>
+            </div>
+          </div>
+          <div class="loading-card">
+            <div class="state-inner">
+              ${renderBookIllustration()}
+              <h3 class="state-title">翻阅古籍中...</h3>
+              <p class="state-text loading-notes">${escapeHTML(CONFIG.loadMessages[state.loadingMessageIndex])}</p>
+              <p class="state-text">如果你切换季数或集数，当前请求会自动中止，不会让旧结果覆盖新内容。</p>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderErrorState(message) {
+        const selected = getSelectedEpisodeMeta();
+        const currentCache = getCurrentCache();
+        return `
+          <div class="result-actions">
+            <div class="result-actions-left">
+              <div class="panel-kicker">侧边阅读面板</div>
+              <div class="micro-note">当前展示：${escapeHTML(selected ? selected.fullTitle : getSelectionLabel())}</div>
+            </div>
+            <div class="result-actions-right">
+              <button class="btn btn-primary" data-action="generate">重新生成本集解析</button>
+              ${currentCache ? `<button class="copy-btn" data-action="view-cache">查看缓存</button>` : ""}
+              <button class="panel-close" data-action="close-panel">关闭面板</button>
+            </div>
+          </div>
+          <div class="error-card">
+            <div class="state-inner">
+              ${renderMistIllustration()}
+              <h3 class="state-title">这次没顺利翻到答案</h3>
+              <p class="state-text">${escapeHTML(message)}</p>
+              <p class="state-text">可以先检查设置页里的 Key 与模型配置，再回来重新生成。</p>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderFallbackResult(result) {
+        const selected = getSelectedEpisodeMeta();
+        return `
+          <div class="result-actions">
+            <div class="result-actions-left">
+              <div class="panel-kicker">侧边阅读面板</div>
+              <div class="micro-note">当前展示：${escapeHTML(selected ? selected.fullTitle : getSelectionLabel())}</div>
+            </div>
+            <div class="result-actions-right">
+              <button class="btn btn-primary" data-action="regenerate">重新生成本集解析</button>
+              <button class="copy-btn" data-action="copy-fallback">复制原始返回</button>
+              <button class="panel-close" data-action="close-panel">关闭面板</button>
+            </div>
+          </div>
+          ${renderInfoCard(result.meta, result.notice)}
+          <div class="fallback-card" style="place-items: stretch; text-align: left;">
+            <div class="state-inner" style="max-width: none; width: 100%; justify-items: stretch;">
+              <div class="banner warning">本次解析未能完整结构化，以下为模型原始返回内容。</div>
+              <pre class="fallback-raw">${escapeHTML(result.rawText || "本次未拿到原始内容。")}</pre>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderStructuredResult(result) {
+        const data = result.data;
+        const selected = getSelectedEpisodeMeta();
+        const currentCache = getCurrentCache();
+        const modules = [
+          {
+            id: "summary",
+            title: "本集概要",
+            html: renderSummaryModule(data.summary),
+            copyText: buildSummaryCopy(data.summary)
+          },
+          {
+            id: "coreConflict",
+            title: "本集核心矛盾",
+            html: renderCoreConflictModule(data.coreConflict),
+            copyText: buildCoreConflictCopy(data.coreConflict)
+          },
+          {
+            id: "confusingPoints",
+            title: "你可能没看懂的地方",
+            html: renderConfusingModule(data.confusingPoints),
+            copyText: buildConfusingCopy(data.confusingPoints)
+          },
+          {
+            id: "scenes",
+            title: "剧情详细拆解",
+            html: renderScenesModule(data.scenes),
+            copyText: buildScenesCopy(data.scenes)
+          },
+          {
+            id: "characters",
+            title: "角色关系梳理",
+            html: renderCharactersModule(data.characters),
+            copyText: buildCharactersCopy(data.characters)
+          },
+          {
+            id: "highlights",
+            title: "本集名场面 / 金句",
+            html: renderHighlightsModule(data.highlights),
+            copyText: buildHighlightsCopy(data.highlights)
+          },
+          {
+            id: "spoilers",
+            title: "伏笔与后续（剧透）",
+            html: renderSpoilersModule(data.spoilers),
+            copyText: buildSpoilersCopy(data.spoilers)
+          }
+        ];
+
+        return `
+          <div class="result-actions">
+            <div class="result-actions-left">
+              <div class="panel-kicker">侧边阅读面板</div>
+              <h3 class="result-title">${escapeHTML(selected ? selected.fullTitle : getSelectionLabel())}</h3>
+              <div class="micro-note">
+                ${result.fromCache ? "当前正在阅读缓存版本" : "当前正在阅读最新生成结果"}
+                ${result.cacheAgeDays > 15 ? ` · 生成于 ${result.cacheAgeDays} 天前` : ""}
+                · 阅读字号：${escapeHTML(getReadingScaleLabel(state.readingScale))}
+              </div>
+            </div>
+            <div class="result-actions-right">
+              <button class="btn btn-primary" data-action="regenerate" ${state.loading ? "disabled" : ""}>重新生成本集解析</button>
+              ${currentCache ? `<button class="copy-btn" data-action="view-cache">查看缓存</button>` : ""}
+              <button class="panel-close" data-action="close-panel">关闭面板</button>
+              <div class="tool-chip-group">
+                <button class="tool-chip" data-action="expand-all">展开全部</button>
+                <button class="tool-chip" data-action="collapse-all">收起全部</button>
+                <button class="tool-chip" data-action="copy-all">复制全部解析</button>
+              </div>
+              <div class="tool-chip-group">
+                ${READING_SCALES.map((scale) => `<button class="tool-chip ${scale.id === state.readingScale ? "active" : ""}" data-action="set-reading-scale" data-scale="${scale.id}">${escapeHTML(scale.label)}</button>`).join("")}
+              </div>
+            </div>
+          </div>
+          ${renderInfoCard(result.meta, result.notice)}
+          <div class="module-stack">
+            ${modules.map((module) => renderModuleCard(module)).join("")}
+          </div>
+        `;
+      }
+
+      function renderSelectionOverview(season) {
+        const selected = getSelectedEpisodeMeta();
+        if (selected) {
+          const adjacent = getAdjacentEpisodes(state.selectedSeasonIndex, state.selectedEpisodeNum);
+          return `
+            <div class="selection-overview">
+              <div>
+                <span class="hero-panel-label">当前待解析</span>
+                <h3 class="selection-overview-title">${escapeHTML(selected.fullTitle)}</h3>
+                <p class="selection-overview-text">${escapeHTML(selected.focus)}</p>
+                <div class="tag-row" style="margin-top: 12px;">
+                  ${selected.arc ? `<span class="tag">篇章：${escapeHTML(selected.arc)}</span>` : ""}
+                  ${selected.tags.map((tag) => `<span class="tag">${escapeHTML(tag)}</span>`).join("")}
+                </div>
+              </div>
+              <div class="selection-overview-side">
+                <div class="selection-meta-box">
+                  <span class="selection-meta-label">上一集</span>
+                  <div class="selection-meta-value">${adjacent.prev ? escapeHTML(adjacent.prev.fullTitle) : "当前已是第一页"} </div>
+                </div>
+                <div class="selection-meta-box">
+                  <span class="selection-meta-label">下一集</span>
+                  <div class="selection-meta-value">${adjacent.next ? escapeHTML(adjacent.next.fullTitle) : "当前已是最新收录"} </div>
+                </div>
+                <div class="selection-meta-box">
+                  <span class="selection-meta-label">当前模式重点</span>
+                  <div class="selection-meta-value">${escapeHTML(getModeShortFocus(state.currentMode))}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="selection-overview">
+            <div>
+              <span class="hero-panel-label">${escapeHTML(season.name)}看点</span>
+              <h3 class="selection-overview-title">${escapeHTML(season.theme || season.name)}</h3>
+              <p class="selection-overview-text">${escapeHTML(season.summary || "这一季的重点会围绕角色关系、机缘落点和剧情因果来拆解。")}</p>
+            </div>
+            <div class="selection-overview-side">
+              <div class="selection-meta-box">
+                <span class="selection-meta-label">当前模式重点</span>
+                <div class="selection-meta-value">${escapeHTML(getModeShortFocus(state.currentMode))}</div>
+              </div>
+              <div class="selection-meta-box">
+                <span class="selection-meta-label">本季题眼</span>
+                <div class="selection-meta-value">${escapeHTML(season.hook || "从关键人物与事件线切入。")}</div>
+              </div>
+              <div class="selection-meta-box">
+                <span class="selection-meta-label">收录范围</span>
+                <div class="selection-meta-value">${escapeHTML(season.rangeText || `第1-${season.episodes.length}集`)}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderModuleCard(module) {
+        const open = Boolean(state.moduleOpen[module.id]);
+        return `
+          <article class="module-card ${open ? "" : "collapsed"}">
+            <div class="module-head" data-action="toggle-module" data-module-id="${module.id}">
+              <div class="module-title-wrap">
+                <span class="module-dot"></span>
+                <h3>${escapeHTML(module.title)}</h3>
+              </div>
+              <div class="module-actions">
+                <button class="copy-btn" data-action="copy-module" data-module-id="${module.id}">复制本模块</button>
+                <button class="module-toggle" data-action="toggle-module" data-module-id="${module.id}">${open ? "收起" : "展开"}</button>
+              </div>
+            </div>
+            <div class="module-body">${module.html}</div>
+          </article>
+        `;
+      }
+
+      function renderSummaryModule(summary) {
+        return `
+          <p class="summary-text">${escapeHTML(summary.text || "暂无概要。")}</p>
+          <div class="tag-row" style="margin-bottom: 12px;">
+            ${renderSourceTag(summary.sourceType)}
+            ${renderConfidenceTag(summary.confidence)}
+            <span class="tag">对应原著：${escapeHTML(summary.originalChapters || "未明确说明")}</span>
+          </div>
+        `;
+      }
+
+      function renderCoreConflictModule(items) {
+        if (!items.length) {
+          return `<div class="list-item">暂无可展示的核心矛盾。</div>`;
+        }
+        return `
+          <div class="list-block">
+            ${items.map((item, index) => `
+              <div class="list-item">
+                <strong>${index + 1}. ${escapeHTML(item.point || "未命名要点")}</strong>
+                <div class="tag-row" style="margin-top: 10px;">
+                  ${renderSourceTag(item.sourceType)}
+                  ${renderConfidenceTag(item.confidence)}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderConfusingModule(items) {
+        if (!items.length) {
+          return `<div class="qa-card">这次返回里没有单独列出“没看懂的地方”。</div>`;
+        }
+        return `
+          <div class="qa-list">
+            ${items.map((item) => `
+              <div class="qa-card">
+                <p class="qa-question">Q：${escapeHTML(item.question || "未命名问题")}</p>
+                <p class="qa-answer">${escapeHTML(item.answer || "暂无解答。")}</p>
+                <div class="tag-row" style="margin-top: 12px;">
+                  ${item.relatedEpisode ? `<span class="tag">关联集数：${escapeHTML(item.relatedEpisode)}</span>` : ""}
+                  ${renderSourceTag(item.sourceType)}
+                  ${renderConfidenceTag(item.confidence)}
+                  <span class="tag">${escapeHTML(SPOILER_LABELS[item.spoilerLevel] || "剧透等级未标注")}</span>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderScenesModule(items) {
+        if (!items.length) {
+          return `<div class="scene-card">这次没有成功结构化出场景拆解。</div>`;
+        }
+        return `
+          <div class="scene-list">
+            ${items.map((scene) => `
+              <div class="scene-card">
+                <h4 class="scene-title">${escapeHTML(scene.title || "未命名场景")}</h4>
+                <div class="scene-section">
+                  <span class="scene-section-label">发生了什么</span>
+                  <p>${escapeHTML(scene.description || "暂无说明。")}</p>
+                </div>
+                <div class="scene-section">
+                  <span class="scene-section-label">为什么重要</span>
+                  <p>${escapeHTML(scene.significance || "暂无说明。")}</p>
+                </div>
+                <div class="tag-row" style="margin-top: 12px;">
+                  ${scene.characters.length ? `<span class="tag">涉及角色：${escapeHTML(scene.characters.join("、"))}</span>` : ""}
+                  ${renderSourceTag(scene.sourceType)}
+                  ${renderConfidenceTag(scene.confidence)}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderCharactersModule(items) {
+        if (!items.length) {
+          return `<div class="character-card" style="grid-template-columns: 1fr;">这次没有列出角色关系梳理。</div>`;
+        }
+        return `
+          <div class="character-list">
+            ${items.map((item) => `
+              <div class="character-card">
+                <div class="avatar">${escapeHTML(getAvatarText(item.name))}</div>
+                <div>
+                  <div class="character-header">
+                    <strong class="character-name">${escapeHTML(item.name || "未命名角色")}</strong>
+                    ${item.isNew ? '<span class="tag gold-tag">本集新登场</span>' : ""}
+                    ${renderSourceTag(item.sourceType)}
+                    ${renderConfidenceTag(item.confidence)}
+                  </div>
+                  <p><span class="scene-section-label">身份简介</span>${escapeHTML(item.identity || "暂无说明。")}</p>
+                  <p class="scene-section"><span class="scene-section-label">本集中做了什么</span>${escapeHTML(item.thisEpisode || "暂无说明。")}</p>
+                  <p class="scene-section"><span class="scene-section-label">关系变化</span>${escapeHTML(item.relationChanges || "暂无明显变化。")}</p>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderHighlightsModule(items) {
+        if (!items.length) {
+          return `<div class="quote-card">这次没有单独整理名场面或金句。</div>`;
+        }
+        return `
+          <div class="highlight-list">
+            ${items.map((item) => `
+              <div class="quote-card">
+                <p class="quote-text">${escapeHTML(item.quote || "未提供台词或场景描述。")}</p>
+                <div class="quote-meta">${escapeHTML(item.speaker || "未知说话人")} · ${escapeHTML(item.context || "背景未说明")}</div>
+                ${item.deeperMeaning ? `<p class="quote-context" style="margin-top: 10px;">${escapeHTML(item.deeperMeaning)}</p>` : ""}
+                <div class="tag-row" style="margin-top: 12px;">
+                  ${renderSourceTag(item.sourceType)}
+                  ${renderConfidenceTag(item.confidence)}
+                  <span class="tag">${escapeHTML(SPOILER_LABELS[item.spoilerLevel] || "剧透等级未标注")}</span>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderSpoilersModule(spoilers) {
+        const boxes = [
+          {
+            title: "本集埋下的伏笔",
+            content: spoilers.foreshadowing.length ? spoilers.foreshadowing.map((item) => `
+              <div class="spoiler-box">
+                <p><strong>${escapeHTML(item.hint || "未命名伏笔")}</strong></p>
+                <p style="margin-top: 8px;">${escapeHTML(item.futurePayoff || "后续兑现方式未说明。")}</p>
+                <div class="tag-row" style="margin-top: 12px;">
+                  ${renderSourceTag(item.sourceType)}
+                  ${renderConfidenceTag(item.confidence)}
+                </div>
+              </div>
+            `).join("") : `<div class="spoiler-box"><p>这次没有列出明确伏笔。</p></div>`
+          },
+          {
+            title: "当前剧情线后续走向",
+            content: `<div class="spoiler-box"><p>${escapeHTML(spoilers.futureDirection.text || "暂无说明。")}</p><div class="tag-row" style="margin-top: 12px;">${renderSourceTag(spoilers.futureDirection.sourceType)}${renderConfidenceTag(spoilers.futureDirection.confidence)}</div></div>`
+          },
+          {
+            title: "角色命运走向",
+            content: `<div class="spoiler-box"><p>${escapeHTML(spoilers.characterFates.text || "暂无说明。")}</p><div class="tag-row" style="margin-top: 12px;">${renderSourceTag(spoilers.characterFates.sourceType)}${renderConfidenceTag(spoilers.characterFates.confidence)}</div></div>`
+          },
+          {
+            title: "动画与原著的差异",
+            content: `<div class="spoiler-box"><p>${escapeHTML(spoilers.adaptationDifferences.text || "本次未提及明显改编差异。")}</p><div class="tag-row" style="margin-top: 12px;">${renderSourceTag(spoilers.adaptationDifferences.sourceType)}${renderConfidenceTag(spoilers.adaptationDifferences.confidence)}</div></div>`
+          }
+        ];
+        return `
+          <div class="spoiler-warning">⚠️ 以下内容包含原著剧透，点击展开前请确认你希望看到后续走向与改编差异。</div>
+          <div class="spoiler-grid">
+            ${boxes.map((box) => `
+              <div>
+                <h4 class="scene-title">${escapeHTML(box.title)}</h4>
+                ${box.content}
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderInfoCard(meta, notice) {
+        return `
+          <div class="info-card">
+            <strong style="font-size: 1.06rem;">解析依据说明</strong>
+            <div class="info-grid">
+              <div class="info-item"><span class="info-label">动画集数</span><div class="info-value">${escapeHTML(meta.selection)}</div></div>
+              <div class="info-item"><span class="info-label">当前模式</span><div class="info-value">${escapeHTML(meta.modeLabel)}</div></div>
+              <div class="info-item"><span class="info-label">使用模型</span><div class="info-value">${escapeHTML(meta.usedModel || meta.requestedModel || "未记录")}</div></div>
+              <div class="info-item"><span class="info-label">生成时间</span><div class="info-value">${escapeHTML(meta.generatedAtText || "未记录")}</div></div>
+              <div class="info-item"><span class="info-label">来源说明</span><div class="info-value">${escapeHTML(meta.sourceTypeSummary.join(" / ") || "未标注")}</div></div>
+              <div class="info-item"><span class="info-label">当前通道</span><div class="info-value">${escapeHTML(meta.channel || "未记录")}</div></div>
+            </div>
+            ${meta.hasInference ? '<div class="banner warning" style="margin-top: 14px;">本次解析中部分内容基于原著对应段落与动画进度推断，动画实际改编可能存在差异。</div>' : ""}
+            ${meta.staleNote ? `<div class="banner warning" style="margin-top: 12px;">${escapeHTML(meta.staleNote)}</div>` : ""}
+            ${notice ? `<div class="banner ${notice.type || ""}" style="margin-top: 12px;">${escapeHTML(notice.message)}</div>` : ""}
+          </div>
+        `;
+      }
+
+      function renderSettingsPage() {
+        const cacheIndex = getCacheIndex();
+        const lastGenerated = cacheIndex.length ? formatDateTime(Math.max(...cacheIndex.map((item) => item.createdAt || 0))) : "暂无";
+        const modelInPreset = MODEL_OPTIONS.includes(state.currentModel);
+        return `
+          <section class="page ${state.activeTab === "settings" ? "active" : ""}">
+            <div class="settings-grid">
+              <div class="status-card">
+                <div class="section-heading">
+                  <div>
+                    <h2 class="section-title">当前状态概览</h2>
+                    <p class="section-subtitle">先看整体配置是否齐，再决定要不要改 Key、模型或缓存。</p>
+                  </div>
+                </div>
+                <div class="status-grid">
+                  <div class="status-item">OpenRouter<strong>${maskStatus(readSetting(STORAGE_KEYS.apiKey, ""))}</strong></div>
+                  <div class="status-item">DeepSeek 备用<strong>${maskStatus(readSetting(STORAGE_KEYS.deepseekKey, ""))}</strong></div>
+                  <div class="status-item">当前模型<strong>${escapeHTML(state.currentModel)}</strong></div>
+                  <div class="status-item">当前模式<strong>${escapeHTML(getModeLabel(state.currentMode))}</strong></div>
+                  <div class="status-item">缓存条数<strong>${cacheIndex.length}</strong></div>
+                  <div class="status-item">最近生成时间<strong>${escapeHTML(lastGenerated)}</strong></div>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <div class="section-heading">
+                  <div>
+                    <h2 class="section-title">API Key 配置</h2>
+                    <p class="section-subtitle">检测按钮会发送最小真实请求，而不是只检查输入框是否为空。</p>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="field-group">
+                    <label class="field-label" for="openrouterKey">OpenRouter API Key</label>
+                    <div class="input-row">
+                      <input class="field-control" id="openrouterKey" type="${state.revealedFields.openrouter ? "text" : "password"}" value="${escapeAttribute(readSetting(STORAGE_KEYS.apiKey, ""))}" placeholder="请输入 sk-or- 开头的 OpenRouter API Key">
+                      <button class="btn btn-secondary" data-action="toggle-visibility" data-target="openrouter">显示</button>
+                      <button class="btn btn-secondary" data-action="save-openrouter">保存</button>
+                      <button class="btn btn-primary" data-action="test-openrouter">检测可用性</button>
+                    </div>
+                    <div class="setting-feedback ${state.feedback.openrouterType}">${escapeHTML(state.feedback.openrouter || "")}</div>
+                  </div>
+
+                  <div class="field-group">
+                    <label class="field-label" for="deepseekKey">DeepSeek 备用 API Key</label>
+                    <div class="input-row">
+                      <input class="field-control" id="deepseekKey" type="${state.revealedFields.deepseek ? "text" : "password"}" value="${escapeAttribute(readSetting(STORAGE_KEYS.deepseekKey, ""))}" placeholder="请输入 DeepSeek API Key">
+                      <button class="btn btn-secondary" data-action="toggle-visibility" data-target="deepseek">显示</button>
+                      <button class="btn btn-secondary" data-action="save-deepseek">保存</button>
+                      <button class="btn btn-primary" data-action="test-deepseek">检测可用性</button>
+                    </div>
+                    <div class="setting-feedback ${state.feedback.deepseekType}">${escapeHTML(state.feedback.deepseek || "")}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <div class="section-heading">
+                  <div>
+                    <h2 class="section-title">模型与模式</h2>
+                    <p class="section-subtitle">你可以选预置模型，也可以直接手填模型 ID；手填会覆盖下拉选项。</p>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="field-group">
+                    <label class="field-label" for="presetModel">预置模型</label>
+                    <select class="field-select" id="presetModel">
+                      ${MODEL_OPTIONS.map((model) => `<option value="${escapeAttribute(model)}" ${model === (modelInPreset ? state.currentModel : MODEL_OPTIONS[0]) ? "selected" : ""}>${escapeHTML(model)}</option>`).join("")}
+                    </select>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" for="customModel">手动输入模型 ID</label>
+                    <input class="field-control" id="customModel" type="text" value="${escapeAttribute(modelInPreset ? "" : state.currentModel)}" placeholder="例如：deepseek/deepseek-chat">
+                  </div>
+                  <div class="inline-actions">
+                    <button class="btn btn-primary" data-action="save-model">保存模型设置</button>
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label">用户模式偏好</label>
+                    <div class="mode-options">
+                      ${MODE_OPTIONS.map((mode) => `
+                        <button class="mode-option ${mode.id === state.currentMode ? "active" : ""}" data-action="set-mode" data-mode="${mode.id}">
+                          <span class="mode-option-title">${escapeHTML(mode.label)}</span>
+                          <span class="mode-option-desc">${escapeHTML(mode.desc)}</span>
+                        </button>
+                      `).join("")}
+                    </div>
+                  </div>
+                  <div class="setting-feedback ${state.feedback.settingsType}">${escapeHTML(state.feedback.settings || "")}</div>
+                </div>
+              </div>
+
+              <div class="settings-card">
+                <div class="section-heading">
+                  <div>
+                    <h2 class="section-title">缓存管理</h2>
+                    <p class="section-subtitle">缓存会优先减少重复调用费用，但你随时都能重新生成最新解析。</p>
+                  </div>
+                </div>
+                <div class="inline-actions">
+                  <button class="btn btn-secondary" data-action="clear-current-cache">清除当前集缓存</button>
+                  <button class="btn btn-danger" data-action="clear-all-cache">清除全部缓存</button>
+                </div>
+                <p class="cache-note">缓存用于减少重复调用费用。同一集已生成内容会优先读取缓存，但你仍可手动重新生成最新解析。缓存默认有效期为 15 天，超过后依然可读，只会提示可能不是最新版本。</p>
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      function handleClick(event) {
+        const target = event.target.closest("[data-action]");
+        if (!target) {
+          return;
+        }
+
+        const action = target.dataset.action;
+
+        if (action === "copy-module" || action === "copy-all" || action === "copy-fallback") {
+          event.stopPropagation();
+        }
+
+        switch (action) {
+          case "switch-tab":
+            state.activeTab = target.dataset.tab;
+            render();
+            break;
+          case "select-season":
+            selectSeason(Number(target.dataset.seasonIndex));
+            break;
+          case "select-episode":
+            selectEpisode(Number(target.dataset.seasonIndex), Number(target.dataset.episodeNum));
+            break;
+          case "continue-last":
+            jumpToRecentEpisode();
+            break;
+          case "close-panel":
+            closePanel();
+            break;
+          case "generate":
+          case "regenerate":
+            generateAnalysis();
+            break;
+          case "view-cache":
+            showCacheResult();
+            break;
+          case "cancel-request":
+            abortCurrentRequest("用户已取消本次生成。");
+            state.loading = false;
+            stopLoadingTicker();
+            render();
+            pushToast("已取消当前解析生成。", "success");
+            break;
+          case "toggle-module":
+            toggleModule(target.dataset.moduleId);
+            break;
+          case "copy-all":
+            {
+              const activeStructured = getActiveStructuredResult();
+              copyText(buildFullCopyText(activeStructured ? activeStructured.data : null), "全部解析已复制。");
+            }
+            break;
+          case "copy-module":
+            copyModule(target.dataset.moduleId);
+            break;
+          case "expand-all":
+            setAllModulesOpen(true);
+            break;
+          case "collapse-all":
+            setAllModulesOpen(false);
+            break;
+          case "set-reading-scale":
+            setReadingScale(target.dataset.scale);
+            break;
+          case "copy-fallback":
+            copyText(state.result && state.result.rawText ? state.result.rawText : "", "原始返回已复制。");
+            break;
+          case "toggle-visibility":
+            state.revealedFields[target.dataset.target] = !state.revealedFields[target.dataset.target];
+            render();
+            break;
+          case "save-openrouter":
+            saveKey(STORAGE_KEYS.apiKey, document.getElementById("openrouterKey").value.trim(), "OpenRouter Key 已保存。");
+            break;
+          case "save-deepseek":
+            saveKey(STORAGE_KEYS.deepseekKey, document.getElementById("deepseekKey").value.trim(), "DeepSeek 备用 Key 已保存。");
+            break;
+          case "test-openrouter":
+            testOpenRouter();
+            break;
+          case "test-deepseek":
+            testDeepSeek();
+            break;
+          case "save-model":
+            saveModel();
+            break;
+          case "set-mode":
+            setMode(target.dataset.mode);
+            break;
+          case "clear-current-cache":
+            clearCurrentCache();
+            break;
+          case "clear-all-cache":
+            clearAllCache();
+            break;
+          default:
+            break;
+        }
+      }
+
+      function selectSeason(index) {
+        if (index === state.selectedSeasonIndex) {
+          return;
+        }
+        abortCurrentRequest();
+        stopLoadingTicker();
+        state.selectedSeasonIndex = index;
+        state.selectedEpisodeNum = null;
+        state.loading = false;
+        state.result = null;
+        render();
+      }
+
+      function closePanel() {
+        if (state.loading) {
+          abortCurrentRequest("已关闭侧边阅读面板，并中止当前生成。");
+          state.loading = false;
+          stopLoadingTicker();
+        }
+        state.selectedEpisodeNum = null;
+        state.result = null;
+        render();
+      }
+
+      function selectEpisode(seasonIndex, episodeNum) {
+        abortCurrentRequest();
+        stopLoadingTicker();
+        state.selectedSeasonIndex = seasonIndex;
+        state.selectedEpisodeNum = episodeNum;
+        state.loading = false;
+        state.result = null;
+        persistLastEpisode();
+        const cache = getCurrentCache();
+        if (cache) {
+          setResult(cacheToResult(cache, true));
+        }
+        render();
+      }
+
+      function jumpToRecentEpisode() {
+        const recent = safeStorage.getJSON(STORAGE_KEYS.lastEpisode, null);
+        if (!recent) {
+          pushToast("还没有可继续查看的记录。", "error");
+          return;
+        }
+        const seasonIndex = EPISODE_DATA.seasons.findIndex((season) => season.name === recent.seasonName);
+        if (seasonIndex === -1) {
+          pushToast("上次查看的剧集不在当前元数据中。", "error");
+          return;
+        }
+        selectEpisode(seasonIndex, recent.episodeNum);
+      }
+
+      async function generateAnalysis() {
+        if (!state.selectedEpisodeNum || state.loading) {
+          return;
+        }
+
+        const openRouterKey = readSetting(STORAGE_KEYS.apiKey, "").trim();
+        const deepseekKey = readSetting(STORAGE_KEYS.deepseekKey, "").trim();
+        if (!openRouterKey && !deepseekKey) {
+          setResult({
+            kind: "error",
+            message: "请先在设置页填写 OpenRouter API Key；如果暂时没有，也可以先填写 DeepSeek 备用 Key。"
+          });
+          render();
+          return;
+        }
+
+        if (openRouterKey && !/^sk-or-/i.test(openRouterKey)) {
+          setResult({
+            kind: "error",
+            message: "OpenRouter Key 格式看起来不对，请填写以 sk-or- 开头的 Key。"
+          });
+          render();
+          return;
+        }
+
+        state.loading = true;
+        state.result = null;
+        state.feedback.settings = "";
+        state.feedback.settingsType = "";
+        startLoadingTicker();
+        render();
+
+        const controller = new AbortController();
+        state.activeController = controller;
+        const token = ++state.requestToken;
+        controller.timeoutHandle = window.setTimeout(() => {
+          controller.wasTimeout = true;
+          controller.abort();
+        }, CONFIG.requestTimeoutMs);
+
+        try {
+          const selection = getCurrentSelection();
+          const requestedModel = state.currentModel;
+          const generated = await fetchAnalysis(selection, requestedModel, controller);
+          if (token !== state.requestToken) {
+            return;
+          }
+
+          if (generated.kind === "structured") {
+            saveCache(generated.cacheEntry);
+          }
+
+          setResult(generated.result);
+        } catch (error) {
+          if (token !== state.requestToken) {
+            return;
+          }
+          setResult({
+            kind: "error",
+            message: humanizeError(error)
+          });
+        } finally {
+          window.clearTimeout(controller.timeoutHandle);
+          if (state.activeController === controller) {
+            state.activeController = null;
+          }
+          stopLoadingTicker();
+          state.loading = false;
+          render();
+        }
+      }
+
+      async function fetchAnalysis(selection, requestedModel, controller) {
+        const modeMeta = MODE_OPTIONS.find((item) => item.id === state.currentMode) || MODE_OPTIONS[1];
+        const adjacent = getAdjacentEpisodes(selection.seasonIndex, selection.episodeNum);
+        const userPrompt = `请为《剑来》动画 ${selection.seasonName} 第${selection.episodeNum}集《${selection.shortTitle}》生成完整剧情解析。
+
+当前用户模式：${modeMeta.label}
+
+本地已知剧集信息：
+- 本集标题：${selection.shortTitle}
+- 所属篇章：${selection.arc || "未标注"}
+- 当前季主题：${selection.seasonTheme || selection.seasonName}
+- 本集重点人物：${selection.tags.length ? selection.tags.join("、") : "未标注"}
+- 本集题眼：${selection.focus || "优先解释本集的重要因果"}
+- 上一集：${adjacent.prev ? adjacent.prev.fullTitle : "无"}
+- 下一集：${adjacent.next ? adjacent.next.fullTitle : "暂无后续已播集数"}
+
+当前模式写作侧重：
+${modeMeta.promptFocus.map((line, index) => `${index + 1}. ${line}`).join("\n")}
+
+要求：
+1. 优先帮助动画观众看懂这一集，不要空泛总结。
+2. 如果你能确认某些内容属于本集动画直接呈现，请按确定语气写。
+3. 如果有些解释来自原著补充或合理推断，请明确标注，不要混写成动画已明确演出的事实。
+4. 输出必须是合法 JSON，不要带 markdown 代码块。
+
+如果你对这一集动画的具体改编内容无法完全确认，可以基于原著对应章节与动画整体进度进行合理推断，但必须在 sourceType 和 confidence 中如实体现。`;
+
+        const baseMessages = [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: userPrompt }
+        ];
+
+        let rawText = "";
+        let channel = "";
+        let usedModel = "";
+        let notice = null;
+        const openRouterKey = readSetting(STORAGE_KEYS.apiKey, "").trim();
+        const deepseekKey = readSetting(STORAGE_KEYS.deepseekKey, "").trim();
+
+        if (openRouterKey) {
+          try {
+            rawText = await requestOpenRouter(openRouterKey, requestedModel, baseMessages, controller);
+            channel = "OpenRouter";
+            usedModel = requestedModel;
+          } catch (error) {
+            if (isAbortLike(error)) {
+              throw error;
+            }
+            if (deepseekKey) {
+              notice = {
+                type: "warning",
+                message: "OpenRouter 调用失败，已自动切换至 DeepSeek 备用通道。"
+              };
+              rawText = await requestDeepSeek(deepseekKey, baseMessages, controller);
+              channel = "DeepSeek 备用";
+              usedModel = "deepseek-chat";
+            } else {
+              throw error;
+            }
+          }
+        } else if (deepseekKey) {
+          notice = {
+            type: "warning",
+            message: "未配置 OpenRouter，已直接使用 DeepSeek 备用通道。"
+          };
+          rawText = await requestDeepSeek(deepseekKey, baseMessages, controller);
+          channel = "DeepSeek 备用";
+          usedModel = "deepseek-chat";
+        }
+
+        const parsed = cleanAndParseJson(rawText);
+        const meta = {
+          selection: `${selection.seasonName}·第${selection.episodeNum}集《${selection.shortTitle}》`,
+          modeLabel: getModeLabel(state.currentMode),
+          requestedModel,
+          usedModel,
+          channel,
+          generatedAtText: formatDateTime(Date.now()),
+          sourceTypeSummary: ["动画内容"],
+          hasInference: false,
+          staleNote: ""
+        };
+
+        if (!parsed.ok) {
+          return {
+            kind: "fallback",
+            result: {
+              kind: "fallback",
+              rawText,
+              notice: notice || {
+                type: "warning",
+                message: "返回内容无法完整结构化，已切换为原文展示。"
+              },
+              meta
+            }
+          };
+        }
+
+        const normalized = normalizeResult(parsed.data);
+        meta.sourceTypeSummary = collectSourceTypes(normalized);
+        meta.hasInference = meta.sourceTypeSummary.includes("推断");
+
+        const cacheEntry = {
+          version: CONFIG.cacheVersion,
+          season: selection.seasonName,
+          episode: selection.episodeNum,
+          shortTitle: selection.shortTitle,
+          mode: state.currentMode,
+          model: usedModel,
+          requestedModel,
+          promptVersion: CONFIG.promptVersion,
+          createdAt: Date.now(),
+          sourceTypeSummary: meta.sourceTypeSummary,
+          channel,
+          data: normalized,
+          rawText
+        };
+
+        return {
+          kind: "structured",
+          cacheEntry,
+          result: cacheToResult(cacheEntry, false, notice)
+        };
+      }
+
+      async function requestOpenRouter(apiKey, model, messages, controller) {
+        let response;
+        try {
+          response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+              model,
+              messages,
+              temperature: 0.65,
+              response_format: { type: "json_object" }
+            }),
+            signal: controller.signal
+          });
+        } catch (error) {
+          if (controller.wasTimeout) {
+            const timeoutError = new Error("请求超时，本次解析内容较长，建议稍后重试。");
+            timeoutError.wasTimeout = true;
+            timeoutError.name = "AbortError";
+            throw timeoutError;
+          }
+          throw error;
+        }
+
+        const text = await response.text();
+        if (!response.ok) {
+          throw new Error(resolveApiError("OpenRouter", response.status, text));
+        }
+
+        return pickContentFromResponse(text);
+      }
+
+      async function requestDeepSeek(apiKey, messages, controller) {
+        let response;
+        try {
+          response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+              model: "deepseek-chat",
+              messages,
+              temperature: 0.65,
+              response_format: { type: "json_object" }
+            }),
+            signal: controller.signal
+          });
+        } catch (error) {
+          if (controller.wasTimeout) {
+            const timeoutError = new Error("请求超时，本次解析内容较长，建议稍后重试。");
+            timeoutError.wasTimeout = true;
+            timeoutError.name = "AbortError";
+            throw timeoutError;
+          }
+          throw error;
+        }
+
+        const text = await response.text();
+        if (!response.ok) {
+          throw new Error(resolveApiError("DeepSeek", response.status, text));
+        }
+
+        return pickContentFromResponse(text);
+      }
+
+      async function testOpenRouter() {
+        const key = document.getElementById("openrouterKey").value.trim();
+        if (!key) {
+          setFeedback("openrouter", "请先输入 OpenRouter Key。", "error");
+          render();
+          return;
+        }
+        if (!/^sk-or-/i.test(key)) {
+          setFeedback("openrouter", "这个 OpenRouter Key 格式不对，请检查是否以 sk-or- 开头。", "error");
+          render();
+          return;
+        }
+
+        setFeedback("openrouter", "正在发送最小真实请求检测 OpenRouter...", "");
+        render();
+
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => {
+          controller.wasTimeout = true;
+          controller.abort();
+        }, 20000);
+
+        try {
+          await requestOpenRouter(key, state.currentModel, [
+            { role: "system", content: "你是接口连通性测试助手。请只返回“可用”。" },
+            { role: "user", content: "请只返回“可用”两个字。" }
+          ], controller);
+          setFeedback("openrouter", "OpenRouter Key 可用，当前模型可正常调用。", "success");
+        } catch (error) {
+          setFeedback("openrouter", humanizeError(error), "error");
+        } finally {
+          window.clearTimeout(timeout);
+          render();
+        }
+      }
+
+      async function testDeepSeek() {
+        const key = document.getElementById("deepseekKey").value.trim();
+        if (!key) {
+          setFeedback("deepseek", "请先输入 DeepSeek 备用 Key。", "error");
+          render();
+          return;
+        }
+
+        setFeedback("deepseek", "正在发送最小真实请求检测 DeepSeek 备用通道...", "");
+        render();
+
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => {
+          controller.wasTimeout = true;
+          controller.abort();
+        }, 20000);
+
+        try {
+          await requestDeepSeek(key, [
+            { role: "system", content: "你是接口连通性测试助手。请只返回“可用”。" },
+            { role: "user", content: "请只返回“可用”两个字。" }
+          ], controller);
+          setFeedback("deepseek", "备用通道可用，可作为 OpenRouter 失败时自动切换的后备方案。", "success");
+        } catch (error) {
+          setFeedback("deepseek", humanizeError(error), "error");
+        } finally {
+          window.clearTimeout(timeout);
+          render();
+        }
+      }
+
+      function saveKey(storageKey, value, message) {
+        if (storageKey === STORAGE_KEYS.apiKey && value && !/^sk-or-/i.test(value)) {
+          pushToast("OpenRouter Key 格式看起来不对，请检查是否以 sk-or- 开头。", "error");
+          return;
+        }
+        const ok = safeStorage.set(storageKey, value);
+        if (ok) {
+          pushToast(message, "success");
+        } else {
+          pushToast("本地保存失败，请检查浏览器是否允许 localStorage。", "error");
+        }
+        if (storageKey === STORAGE_KEYS.apiKey) {
+          setFeedback("openrouter", "", "");
+        }
+        if (storageKey === STORAGE_KEYS.deepseekKey) {
+          setFeedback("deepseek", "", "");
+        }
+        render();
+      }
+
+      function saveModel() {
+        const preset = document.getElementById("presetModel").value;
+        const custom = document.getElementById("customModel").value.trim();
+        const value = custom || preset;
+        if (!value) {
+          setSettingsFeedback("请先选择或输入模型。", "error");
+          render();
+          return;
+        }
+        const ok = safeStorage.set(STORAGE_KEYS.model, value);
+        if (!ok) {
+          setSettingsFeedback("模型保存失败，但不会影响你本次继续使用。", "error");
+          render();
+          return;
+        }
+        state.currentModel = value;
+        state.result = null;
+        setSettingsFeedback(`当前模型已切换为 ${value}。`, "success");
+        render();
+      }
+
+      function setMode(mode) {
+        if (!MODE_OPTIONS.some((item) => item.id === mode)) {
+          return;
+        }
+        const ok = safeStorage.set(STORAGE_KEYS.mode, mode);
+        state.currentMode = mode;
+        state.result = null;
+        if (state.selectedEpisodeNum) {
+          const cache = getCurrentCache();
+          if (cache) {
+            setResult(cacheToResult(cache, true));
+          }
+        }
+        setSettingsFeedback(ok ? `当前模式已切换为 ${getModeLabel(mode)}。` : "模式已切换，但本地保存失败。", ok ? "success" : "error");
+        render();
+      }
+
+      function clearCurrentCache() {
+        const selection = getCurrentSelection();
+        if (!selection) {
+          pushToast("请先选择一集，再清除当前集缓存。", "error");
+          return;
+        }
+        const confirmed = window.confirm(`确认清除 ${selection.seasonName} 第${selection.episodeNum}集 的全部缓存吗？`);
+        if (!confirmed) {
+          return;
+        }
+        const index = getCacheIndex();
+        const remain = [];
+        let removed = 0;
+        index.forEach((item) => {
+          if (item.season === selection.seasonName && item.episode === selection.episodeNum) {
+            safeStorage.remove(item.key);
+            removed += 1;
+          } else {
+            remain.push(item);
+          }
+        });
+        safeStorage.setJSON(STORAGE_KEYS.cacheIndex, remain);
+        state.result = null;
+        pushToast(removed ? "当前集缓存已清除。" : "当前集没有可清理的缓存。", removed ? "success" : "error");
+        render();
+      }
+
+      function clearAllCache() {
+        const confirmed = window.confirm("确认清除全部缓存吗？此操作不会删除已保存的 API Key 和模式设置。");
+        if (!confirmed) {
+          return;
+        }
+        const index = getCacheIndex();
+        index.forEach((item) => safeStorage.remove(item.key));
+        safeStorage.setJSON(STORAGE_KEYS.cacheIndex, []);
+        state.result = null;
+        pushToast("全部缓存已清除。", "success");
+        render();
+      }
+
+      function showCacheResult() {
+        const cache = getCurrentCache();
+        if (!cache) {
+          pushToast("当前模式和模型下没有缓存版本。", "error");
+          return;
+        }
+        setResult(cacheToResult(cache, true));
+        render();
+      }
+
+      function toggleModule(moduleId) {
+        state.moduleOpen[moduleId] = !state.moduleOpen[moduleId];
+        render();
+      }
+
+      function setAllModulesOpen(open) {
+        state.moduleOpen = {
+          summary: open,
+          coreConflict: open,
+          confusingPoints: open,
+          scenes: open,
+          characters: open,
+          highlights: open,
+          spoilers: open
+        };
+        render();
+      }
+
+      function setReadingScale(scale) {
+        if (!READING_SCALES.some((item) => item.id === scale)) {
+          return;
+        }
+        state.readingScale = scale;
+        safeStorage.set(STORAGE_KEYS.readingScale, scale);
+        render();
+      }
+
+      function copyModule(moduleId) {
+        const activeStructured = getActiveStructuredResult();
+        if (!activeStructured) {
+          pushToast("当前没有可复制的结构化解析。", "error");
+          return;
+        }
+        const textMap = {
+          summary: buildSummaryCopy(activeStructured.data.summary),
+          coreConflict: buildCoreConflictCopy(activeStructured.data.coreConflict),
+          confusingPoints: buildConfusingCopy(activeStructured.data.confusingPoints),
+          scenes: buildScenesCopy(activeStructured.data.scenes),
+          characters: buildCharactersCopy(activeStructured.data.characters),
+          highlights: buildHighlightsCopy(activeStructured.data.highlights),
+          spoilers: buildSpoilersCopy(activeStructured.data.spoilers)
+        };
+        copyText(textMap[moduleId] || "", "本模块内容已复制。");
+      }
+
+      function copyText(text, successMessage) {
+        if (!text) {
+          pushToast("没有可复制的内容。", "error");
+          return;
+        }
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(() => {
+            pushToast(successMessage, "success");
+          }).catch(() => {
+            fallbackCopy(text, successMessage);
+          });
+          return;
+        }
+        fallbackCopy(text, successMessage);
+      }
+
+      function fallbackCopy(text, successMessage) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.top = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          pushToast(successMessage, "success");
+        } catch (error) {
+          pushToast("复制失败，请手动选择内容复制。", "error");
+        } finally {
+          textarea.remove();
+        }
+      }
+
+      function setResult(result) {
+        state.result = result;
+        resetModuleOpen();
+      }
+
+      function cacheToResult(cacheEntry, fromCache, noticeOverride) {
+        const ageDays = Math.max(0, Math.floor((Date.now() - (cacheEntry.createdAt || 0)) / 86400000));
+        return {
+          kind: "structured",
+          data: normalizeResult(cacheEntry.data || {}),
+          fromCache,
+          cacheAgeDays: ageDays,
+          notice: noticeOverride || null,
+          meta: {
+            selection: `${cacheEntry.season}·第${cacheEntry.episode}集${cacheEntry.shortTitle ? `《${cacheEntry.shortTitle}》` : ""}`,
+            modeLabel: getModeLabel(cacheEntry.mode || state.currentMode),
+            requestedModel: cacheEntry.requestedModel || state.currentModel,
+            usedModel: cacheEntry.model || cacheEntry.requestedModel || state.currentModel,
+            channel: cacheEntry.channel || "OpenRouter",
+            generatedAtText: formatDateTime(cacheEntry.createdAt || Date.now()),
+            sourceTypeSummary: cacheEntry.sourceTypeSummary || ["动画内容"],
+            hasInference: (cacheEntry.sourceTypeSummary || []).includes("推断"),
+            staleNote: ageDays > 15 ? `本解析生成于 ${ageDays} 天前，可能不是最新版本，建议重新生成。` : ""
+          }
+        };
+      }
+
+      function getActiveStructuredResult() {
+        if (state.result && state.result.kind === "structured") {
+          return state.result;
+        }
+        const cache = getCurrentCache();
+        return cache ? cacheToResult(cache, true) : null;
+      }
+
+      function getCurrentCache() {
+        const selection = getCurrentSelection();
+        if (!selection) {
+          return null;
+        }
+        const key = buildCacheKey(selection.seasonName, selection.episodeNum, state.currentMode, state.currentModel);
+        const cache = safeStorage.getJSON(key, null);
+        if (!cache) {
+          return null;
+        }
+        if (cache.version !== CONFIG.cacheVersion || cache.promptVersion !== CONFIG.promptVersion) {
+          return null;
+        }
+        if (cache.mode !== state.currentMode) {
+          return null;
+        }
+        if ((cache.requestedModel || state.currentModel) !== state.currentModel) {
+          return null;
+        }
+        return cache;
+      }
+
+      function hasCacheForEpisode(seasonName, episodeNum) {
+        const key = buildCacheKey(seasonName, episodeNum, state.currentMode, state.currentModel);
+        return Boolean(safeStorage.get(key));
+      }
+
+      function saveCache(cacheEntry) {
+        const key = buildCacheKey(cacheEntry.season, cacheEntry.episode, cacheEntry.mode, cacheEntry.requestedModel || cacheEntry.model);
+        const ok = safeStorage.setJSON(key, {
+          ...cacheEntry,
+          key
+        });
+        if (!ok) {
+          pushToast("本地缓存写入失败，但不影响本次阅读。", "error");
+          return;
+        }
+
+        const index = getCacheIndex().filter((item) => item.key !== key);
+        index.unshift({
+          key,
+          season: cacheEntry.season,
+          episode: cacheEntry.episode,
+          mode: cacheEntry.mode,
+          requestedModel: cacheEntry.requestedModel || cacheEntry.model,
+          createdAt: cacheEntry.createdAt
+        });
+        safeStorage.setJSON(STORAGE_KEYS.cacheIndex, index);
+      }
+
+      function getCacheIndex() {
+        const raw = safeStorage.getJSON(STORAGE_KEYS.cacheIndex, []);
+        return Array.isArray(raw) ? raw : [];
+      }
+
+      function persistLastEpisode() {
+        const selection = getCurrentSelection();
+        if (!selection) {
+          return;
+        }
+        safeStorage.setJSON(STORAGE_KEYS.lastEpisode, {
+          seasonName: selection.seasonName,
+          episodeNum: selection.episodeNum,
+          updatedAt: Date.now()
+        });
+        state.recentEpisode = safeStorage.getJSON(STORAGE_KEYS.lastEpisode, null);
+      }
+
+      function buildCacheKey(seasonName, episodeNum, mode, model) {
+        const modelHash = sanitizeModel(model || "unknown");
+        return `jljq_cache_${seasonName}_${episodeNum}_${mode}_${modelHash}_v${CONFIG.cacheVersion}`;
+      }
+
+      function buildEpisodeData() {
+        const seasons = [
+          createSeason({
+            index: 0,
+            name: "第一季",
+            theme: "泥瓶巷起局",
+            hook: "机缘与因果都从小镇开始。",
+            summary: "第一季重点是把陈平安、小镇天机、外乡修士入局和离镇前夜的因果一层层摊开，适合重点看“谁在布局、谁在成长、谁在离开”。",
+            titles: [
+              "天雨虽宽", "少女和飞剑", "不平则鸣", "捕蛇鹰", "止境", "离别", "圣人压胜", "武道九境", "一身拳意", "命如老狗",
+              "压裙刀", "放纸鸢", "开天眼", "大敌当前", "天行健", "剑锋所指", "行云散去", "骊珠洞天", "过河卒", "夜幕沉沉",
+              "天下有春", "御剑告别", "家财万贯", "国师绣虎", "大考落幕", "剑来"
+            ],
+            arcRules: [
+              { start: 1, end: 4, arc: "泥瓶巷起局", tags: ["陈平安", "宁姚", "齐静春"], focus: "本命瓷碎裂之后，少年与小镇机缘同时被推上风口浪尖。" },
+              { start: 5, end: 10, arc: "修行开眼", tags: ["顾璨", "刘羡阳", "蔡金简"], focus: "陈平安在凡人处境里争命求活，开始真正理解修行与代价。" },
+              { start: 11, end: 18, arc: "小镇暗涌", tags: ["宋集薪", "稚圭", "宁姚"], focus: "小镇背后的天机慢慢摊牌，局势从日常琐事进入势力对撞。" },
+              { start: 19, end: 26, arc: "离镇前夜", tags: ["李宝瓶", "崔瀺", "阮邛"], focus: "齐静春身后布局、小镇易主与陈平安离镇，是第一季最关键的回收段。" }
+            ]
+          }),
+          createSeason({
+            index: 1,
+            name: "第二季",
+            theme: "离镇游学",
+            hook: "阿良护道，少年真正踏上山水路。",
+            summary: "第二季目前更像“走出小镇后的第一堂江湖课”，重点不只是谁赢谁输，而是陈平安如何在游学历程里学会担当、见识人心与世道。",
+            titles: [
+              "阿良", "作祟", "平地起白虹", "有鬼", "破阵", "气势如虹", "胸中一点浩然气", "雷法捉妖", "第35集", "第36集",
+              "第37集", "第38集", "第39集", "第40集", "第41集", "第42集", "第43集"
+            ],
+            arcRules: [
+              { start: 1, end: 3, arc: "离镇游学", tags: ["阿良", "李宝瓶", "林守一"], focus: "陈平安初出小镇，开始在更大的山水路上学会护人、担责和识局。" },
+              { start: 4, end: 8, arc: "剑修护道", tags: ["阿良", "宋长镜", "楚夫人"], focus: "阿良护道与大骊设局并行，游学队伍在危机里被迫快速成长。" },
+              { start: 9, end: 17, arc: "书院路上", tags: ["魏晋", "楚夫人", "崔东山"], focus: "书院路上的鬼魅风波与人物试炼逐渐汇拢，重点看人心变化和队伍关系。 " }
+            ]
+          })
+        ];
+        seasons[seasons.length - 1].episodes[seasons[seasons.length - 1].episodes.length - 1].isLatest = true;
+        return {
+          updatedAsOf: "2026-04-06",
+          seasons
+        };
+      }
+
+      function createSeason({ index, name, theme, hook, summary, titles, arcRules }) {
+        return {
+          index,
+          name,
+          theme,
+          hook,
+          summary,
+          rangeText: `已播 1-${titles.length} 集`,
+          episodes: Array.from({ length: titles.length }, (_, episodeIndex) => {
+            const num = episodeIndex + 1;
+            const arcMeta = arcRules.find((rule) => num >= rule.start && num <= rule.end) || arcRules[arcRules.length - 1];
+            return {
+              num,
+              shortTitle: titles[episodeIndex],
+              arc: arcMeta.arc,
+              tags: arcMeta.tags,
+              focus: arcMeta.focus,
+              isLatest: false,
+              status: "available"
+            };
+          })
+        };
+      }
+
+      function cleanAndParseJson(rawText) {
+        if (!rawText) {
+          return { ok: false, error: "empty" };
+        }
+
+        let cleaned = String(rawText).trim();
+        cleaned = cleaned.replace(/```json/gi, "```").replace(/```/g, "").trim();
+        cleaned = cleaned.replace(/[“”]/g, "\"").replace(/[‘’]/g, "'");
+        const extracted = extractFirstJsonObject(cleaned);
+        if (extracted) {
+          cleaned = extracted;
+        }
+        cleaned = cleaned.replace(/,\s*([}\]])/g, "$1");
+
+        try {
+          return { ok: true, data: JSON.parse(cleaned) };
+        } catch (error) {
+          try {
+            const repaired = cleaned
+              .replace(/\u00A0/g, " ")
+              .replace(/[\t\r]/g, "")
+              .replace(/,\s*([}\]])/g, "$1");
+            return { ok: true, data: JSON.parse(repaired) };
+          } catch (secondError) {
+            return { ok: false, error: secondError.message };
+          }
+        }
+      }
+
+      function extractFirstJsonObject(text) {
+        const start = text.indexOf("{");
+        if (start === -1) {
+          return "";
+        }
+        let depth = 0;
+        let inString = false;
+        let escaped = false;
+        for (let i = start; i < text.length; i += 1) {
+          const char = text[i];
+          if (inString) {
+            if (escaped) {
+              escaped = false;
+            } else if (char === "\\") {
+              escaped = true;
+            } else if (char === "\"") {
+              inString = false;
+            }
+            continue;
+          }
+          if (char === "\"") {
+            inString = true;
+            continue;
+          }
+          if (char === "{") {
+            depth += 1;
+          }
+          if (char === "}") {
+            depth -= 1;
+            if (depth === 0) {
+              return text.slice(start, i + 1);
+            }
+          }
+        }
+        return "";
+      }
+
+      function normalizeResult(data) {
+        const normalized = {
+          summary: {
+            text: pickText(data?.summary?.text, "本次结果没有生成概要内容。"),
+            originalChapters: pickText(data?.summary?.originalChapters, "未明确对应章节"),
+            sourceType: normalizeSourceType(data?.summary?.sourceType),
+            confidence: normalizeConfidence(data?.summary?.confidence)
+          },
+          coreConflict: normalizeArray(data?.coreConflict).map((item) => ({
+            point: pickText(item?.point, "未明确说明"),
+            sourceType: normalizeSourceType(item?.sourceType),
+            confidence: normalizeConfidence(item?.confidence)
+          })),
+          confusingPoints: normalizeArray(data?.confusingPoints).map((item) => ({
+            question: pickText(item?.question, "未命名问题"),
+            answer: pickText(item?.answer, "暂无解答"),
+            relatedEpisode: pickText(item?.relatedEpisode, ""),
+            sourceType: normalizeSourceType(item?.sourceType),
+            spoilerLevel: normalizeSpoiler(item?.spoilerLevel),
+            confidence: normalizeConfidence(item?.confidence)
+          })),
+          scenes: normalizeArray(data?.scenes).map((item) => ({
+            title: pickText(item?.title, "未命名场景"),
+            description: pickText(item?.description, "暂无说明"),
+            characters: normalizeArray(item?.characters).map((char) => pickText(char, "")).filter(Boolean),
+            significance: pickText(item?.significance, "暂无说明"),
+            sourceType: normalizeSourceType(item?.sourceType),
+            confidence: normalizeConfidence(item?.confidence)
+          })),
+          characters: normalizeArray(data?.characters).map((item) => ({
+            name: pickText(item?.name, "未命名角色"),
+            identity: pickText(item?.identity, "暂无说明"),
+            thisEpisode: pickText(item?.thisEpisode, "暂无说明"),
+            relationChanges: pickText(item?.relationChanges, ""),
+            isNew: Boolean(item?.isNew),
+            sourceType: normalizeSourceType(item?.sourceType),
+            confidence: normalizeConfidence(item?.confidence)
+          })),
+          highlights: normalizeArray(data?.highlights).map((item) => ({
+            quote: pickText(item?.quote, "暂无台词或场景描述"),
+            speaker: pickText(item?.speaker, "未知说话人"),
+            context: pickText(item?.context, "背景未说明"),
+            deeperMeaning: pickText(item?.deeperMeaning, ""),
+            spoilerLevel: normalizeSpoiler(item?.spoilerLevel),
+            sourceType: normalizeSourceType(item?.sourceType),
+            confidence: normalizeConfidence(item?.confidence)
+          })),
+          spoilers: {
+            warning: pickText(data?.spoilers?.warning, "以下内容包含原著剧透"),
+            foreshadowing: normalizeArray(data?.spoilers?.foreshadowing).map((item) => ({
+              hint: pickText(item?.hint, "未命名伏笔"),
+              futurePayoff: pickText(item?.futurePayoff, "后续兑现方式未说明"),
+              sourceType: normalizeSourceType(item?.sourceType, "原著补充"),
+              confidence: normalizeConfidence(item?.confidence)
+            })),
+            futureDirection: {
+              text: pickText(data?.spoilers?.futureDirection?.text, ""),
+              sourceType: normalizeSourceType(data?.spoilers?.futureDirection?.sourceType, "原著补充"),
+              confidence: normalizeConfidence(data?.spoilers?.futureDirection?.confidence)
+            },
+            characterFates: {
+              text: pickText(data?.spoilers?.characterFates?.text, ""),
+              sourceType: normalizeSourceType(data?.spoilers?.characterFates?.sourceType, "原著补充"),
+              confidence: normalizeConfidence(data?.spoilers?.characterFates?.confidence)
+            },
+            adaptationDifferences: {
+              text: pickText(data?.spoilers?.adaptationDifferences?.text, ""),
+              sourceType: normalizeSourceType(data?.spoilers?.adaptationDifferences?.sourceType, "原著补充"),
+              confidence: normalizeConfidence(data?.spoilers?.adaptationDifferences?.confidence)
+            }
+          }
+        };
+
+        return normalized;
+      }
+
+      function collectSourceTypes(data) {
+        const sources = new Set();
+        const touch = (value) => {
+          if (value && SOURCE_LABELS[value]) {
+            sources.add(value);
+          }
+        };
+
+        touch(data.summary.sourceType);
+        data.coreConflict.forEach((item) => touch(item.sourceType));
+        data.confusingPoints.forEach((item) => touch(item.sourceType));
+        data.scenes.forEach((item) => touch(item.sourceType));
+        data.characters.forEach((item) => touch(item.sourceType));
+        data.highlights.forEach((item) => touch(item.sourceType));
+        data.spoilers.foreshadowing.forEach((item) => touch(item.sourceType));
+        touch(data.spoilers.futureDirection.sourceType);
+        touch(data.spoilers.characterFates.sourceType);
+        touch(data.spoilers.adaptationDifferences.sourceType);
+
+        if (!sources.size) {
+          sources.add("动画直接内容");
+        }
+
+        return Array.from(sources).map((item) => item === "动画直接内容" ? "动画内容" : item);
+      }
+
+      function startLoadingTicker() {
+        stopLoadingTicker();
+        state.loadingMessageIndex = 0;
+        state.loadingTicker = window.setInterval(() => {
+          state.loadingMessageIndex = (state.loadingMessageIndex + 1) % CONFIG.loadMessages.length;
+          if (state.loading) {
+            render();
+          }
+        }, 1700);
+      }
+
+      function stopLoadingTicker() {
+        if (state.loadingTicker) {
+          window.clearInterval(state.loadingTicker);
+          state.loadingTicker = null;
+        }
+      }
+
+      function abortCurrentRequest(message) {
+        if (!state.activeController) {
+          return;
+        }
+        state.requestToken += 1;
+        window.clearTimeout(state.activeController.timeoutHandle);
+        state.activeController.abort();
+        state.activeController = null;
+        if (message) {
+          pushToast(message, "success");
+        }
+      }
+
+      function resetModuleOpen() {
+        state.moduleOpen = {
+          summary: true,
+          coreConflict: true,
+          confusingPoints: true,
+          scenes: true,
+          characters: false,
+          highlights: false,
+          spoilers: state.currentMode === "deep_spoiler"
+        };
+      }
+
+      function flattenEpisodes() {
+        return EPISODE_DATA.seasons.flatMap((season) =>
+          season.episodes
+            .filter((episode) => episode.status === "available")
+            .map((episode) => ({
+              ...episode,
+              seasonIndex: season.index,
+              seasonName: season.name,
+              fullTitle: `${season.name}·第${episode.num}集《${episode.shortTitle}》`
+            }))
+        );
+      }
+
+      function getLatestAvailableEpisode() {
+        const all = flattenEpisodes();
+        return all.length ? all[all.length - 1] : null;
+      }
+
+      function getSelectedEpisodeMeta() {
+        if (!state.selectedEpisodeNum) {
+          return null;
+        }
+        const season = EPISODE_DATA.seasons[state.selectedSeasonIndex];
+        const episode = season?.episodes.find((item) => item.num === state.selectedEpisodeNum);
+        if (!episode) {
+          return null;
+        }
+        return {
+          ...episode,
+          seasonName: season.name,
+          fullTitle: `${season.name}·第${episode.num}集《${episode.shortTitle}》`
+        };
+      }
+
+      function getAdjacentEpisodes(seasonIndex, episodeNum) {
+        const all = flattenEpisodes();
+        const currentIndex = all.findIndex((item) => item.seasonIndex === seasonIndex && item.num === episodeNum);
+        return {
+          prev: currentIndex > 0 ? all[currentIndex - 1] : null,
+          next: currentIndex >= 0 && currentIndex < all.length - 1 ? all[currentIndex + 1] : null
+        };
+      }
+
+      function getCoverageText() {
+        const firstSeason = EPISODE_DATA.seasons[0];
+        const latest = getLatestAvailableEpisode();
+        return latest
+          ? `已收录 ${firstSeason.name}·第1集 至 ${latest.seasonName}·第${latest.num}集（截至 ${EPISODE_DATA.updatedAsOf} 已播）`
+          : "暂无已收录剧集";
+      }
+
+      function getRecentEpisodeText() {
+        const recent = state.recentEpisode || safeStorage.getJSON(STORAGE_KEYS.lastEpisode, null);
+        if (!recent) {
+          return "";
+        }
+        return `上次查看：${escapeHTML(recent.seasonName)}·第${recent.episodeNum}集 <button class="recent-link" data-action="continue-last">继续查看</button>`;
+      }
+
+      function getSelectionLabel() {
+        const selection = getCurrentSelection();
+        return selection ? `${selection.seasonName}·第${selection.episodeNum}集` : "未选择剧集";
+      }
+
+      function getCurrentSelection() {
+        if (!state.selectedEpisodeNum) {
+          return null;
+        }
+        const season = EPISODE_DATA.seasons[state.selectedSeasonIndex];
+        const episode = season.episodes.find((item) => item.num === state.selectedEpisodeNum);
+        return {
+          seasonIndex: season.index,
+          seasonName: season.name,
+          seasonTheme: season.theme,
+          episodeNum: state.selectedEpisodeNum,
+          shortTitle: episode?.shortTitle || `第${state.selectedEpisodeNum}集`,
+          arc: episode?.arc || "",
+          tags: episode?.tags || [],
+          focus: episode?.focus || ""
+        };
+      }
+
+      function getModeLabel(mode) {
+        const found = MODE_OPTIONS.find((item) => item.id === mode);
+        return found ? found.label : "看懂前后因果";
+      }
+
+      function getModeShortFocus(mode) {
+        if (mode === "focus_current") {
+          return "尽量只讲本集信息，不主动展开重剧透。";
+        }
+        if (mode === "deep_spoiler") {
+          return "允许深挖后续命运与改编差异。";
+        }
+        return "重点梳理人物关系、前情和后续因果。";
+      }
+
+      function getReadingScaleLabel(scale) {
+        const found = READING_SCALES.find((item) => item.id === scale);
+        return found ? found.label : "标准";
+      }
+
+      function setFeedback(channel, message, type) {
+        state.feedback[channel] = message;
+        state.feedback[`${channel}Type`] = type;
+      }
+
+      function setSettingsFeedback(message, type) {
+        state.feedback.settings = message;
+        state.feedback.settingsType = type;
+      }
+
+      function pushToast(message, type) {
+        const id = `${Date.now()}_${Math.random().toString(16).slice(2)}`;
+        state.toasts.push({ id, message, type });
+        renderToasts();
+        window.setTimeout(() => {
+          state.toasts = state.toasts.filter((item) => item.id !== id);
+          renderToasts();
+        }, 2800);
+      }
+
+      function renderToasts() {
+        toastStack.innerHTML = state.toasts.map((toast) => `
+          <div class="toast ${toast.type || ""}">${escapeHTML(toast.message)}</div>
+        `).join("");
+      }
+
+      function humanizeError(error) {
+        if (isAbortLike(error)) {
+          return error?.wasTimeout || error?.name === "TimeoutError" ? "请求超时，本次解析内容较长，建议稍后重试。" : "用户手动取消了本次请求。";
+        }
+        if (error && typeof error.message === "string") {
+          return error.message;
+        }
+        return "请求失败，请检查网络、Key 与模型配置后重试。";
+      }
+
+      function isAbortLike(error) {
+        return error?.name === "AbortError" || error?.wasTimeout;
+      }
+
+      function resolveApiError(provider, status, responseText) {
+        const detail = parseErrorDetail(responseText);
+        if (status === 400) {
+          return `${provider} 请求参数不完整或格式不正确，请检查模型与请求内容。${detail ? ` ${detail}` : ""}`;
+        }
+        if (status === 401 || status === 403) {
+          return `${provider} Key 无效或权限不足，请重新检查 API Key。${detail ? ` ${detail}` : ""}`;
+        }
+        if (status === 404) {
+          return `${provider} 返回模型不存在或暂不可用，请更换模型后重试。${detail ? ` ${detail}` : ""}`;
+        }
+        if (status === 408 || status === 504) {
+          return `${provider} 请求超时，请检查网络或稍后再试。`;
+        }
+        if (status === 429) {
+          return `${provider} 当前请求过于频繁或额度不足，请稍后再试。${detail ? ` ${detail}` : ""}`;
+        }
+        if (status >= 500) {
+          return `${provider} 服务端暂时不可用，请稍后再试。${detail ? ` ${detail}` : ""}`;
+        }
+        return `${provider} 请求失败。${detail || "请检查网络和配置后重试。"}`;
+      }
+
+      function parseErrorDetail(text) {
+        if (!text) {
+          return "";
+        }
+        try {
+          const data = JSON.parse(text);
+          return data?.error?.message || data?.message || "";
+        } catch (error) {
+          return String(text).slice(0, 120);
+        }
+      }
+
+      function pickContentFromResponse(text) {
+        try {
+          const data = JSON.parse(text);
+          return data?.choices?.[0]?.message?.content || "";
+        } catch (error) {
+          return text;
+        }
+      }
+
+      function readSetting(key, fallback) {
+        const value = safeStorage.get(key);
+        return value == null || value === "" ? fallback : value;
+      }
+
+      function sanitizeModel(model) {
+        return String(model || "unknown")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "_")
+          .replace(/^_+|_+$/g, "")
+          .slice(0, 48) || "model";
+      }
+
+      function normalizeArray(value) {
+        return Array.isArray(value) ? value : [];
+      }
+
+      function pickText(value, fallback) {
+        if (typeof value === "string" && value.trim()) {
+          return value.trim();
+        }
+        return fallback;
+      }
+
+      function normalizeSourceType(value, fallback = "推断") {
+        if (value === "动画直接内容" || value === "原著补充" || value === "推断") {
+          return value;
+        }
+        return fallback;
+      }
+
+      function normalizeConfidence(value) {
+        if (value === "high" || value === "medium" || value === "low") {
+          return value;
+        }
+        return "medium";
+      }
+
+      function normalizeSpoiler(value) {
+        if (value === "none" || value === "light" || value === "heavy") {
+          return value;
+        }
+        return "light";
+      }
+
+      function renderSourceTag(sourceType) {
+        const cls = sourceType === "动画直接内容"
+          ? "source-animation"
+          : sourceType === "原著补充"
+            ? "source-novel"
+            : "source-infer";
+        return `<span class="tag ${cls}">来源：${escapeHTML(sourceType)}</span>`;
+      }
+
+      function renderConfidenceTag(confidence) {
+        return `<span class="tag">${escapeHTML(CONFIDENCE_LABELS[confidence] || "可信度：中")}</span>`;
+      }
+
+      function getAvatarText(name) {
+        const clean = String(name || "").trim();
+        return clean ? clean[0] : "人";
+      }
+
+      function maskStatus(value) {
+        return value ? "已配置" : "未配置";
+      }
+
+      function formatDateTime(timestamp) {
+        if (!timestamp) {
+          return "暂无";
+        }
+        try {
+          return new Intl.DateTimeFormat("zh-CN", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit"
+          }).format(new Date(timestamp));
+        } catch (error) {
+          return new Date(timestamp).toLocaleString();
+        }
+      }
+
+      function buildFullCopyText(data) {
+        if (!data) {
+          return "";
+        }
+        const selected = getSelectedEpisodeMeta();
+        return [
+          `【${selected ? selected.fullTitle : getSelectionLabel()}】`,
+          buildSummaryCopy(data.summary),
+          buildCoreConflictCopy(data.coreConflict),
+          buildConfusingCopy(data.confusingPoints),
+          buildScenesCopy(data.scenes),
+          buildCharactersCopy(data.characters),
+          buildHighlightsCopy(data.highlights),
+          buildSpoilersCopy(data.spoilers)
+        ].filter(Boolean).join("\n\n");
+      }
+
+      function buildSummaryCopy(summary) {
+        return [
+          "【本集概要】",
+          summary.text,
+          `对应原著章节：${summary.originalChapters}`,
+          `来源：${summary.sourceType} / ${CONFIDENCE_LABELS[summary.confidence] || "可信度：中"}`
+        ].join("\n");
+      }
+
+      function buildCoreConflictCopy(items) {
+        return [
+          "【本集核心矛盾】",
+          ...(items.length ? items.map((item, index) => `${index + 1}. ${item.point}（${item.sourceType} / ${CONFIDENCE_LABELS[item.confidence] || "可信度：中"}）`) : ["暂无"])
+        ].join("\n");
+      }
+
+      function buildConfusingCopy(items) {
+        return [
+          "【你可能没看懂的地方】",
+          ...(items.length ? items.map((item, index) => `${index + 1}. ${item.question}\n${item.answer}\n关联集数：${item.relatedEpisode || "无"} / 来源：${item.sourceType} / ${SPOILER_LABELS[item.spoilerLevel] || "轻剧透"} / ${CONFIDENCE_LABELS[item.confidence] || "可信度：中"}`) : ["暂无"])
+        ].join("\n");
+      }
+
+      function buildScenesCopy(items) {
+        return [
+          "【剧情详细拆解】",
+          ...(items.length ? items.map((item, index) => `${index + 1}. ${item.title}\n发生了什么：${item.description}\n涉及角色：${item.characters.join("、") || "未说明"}\n为什么重要：${item.significance}\n来源：${item.sourceType} / ${CONFIDENCE_LABELS[item.confidence] || "可信度：中"}`) : ["暂无"])
+        ].join("\n");
+      }
+
+      function buildCharactersCopy(items) {
+        return [
+          "【角色关系梳理】",
+          ...(items.length ? items.map((item, index) => `${index + 1}. ${item.name}${item.isNew ? "（本集新登场）" : ""}\n身份：${item.identity}\n本集表现：${item.thisEpisode}\n关系变化：${item.relationChanges || "暂无明显变化"}\n来源：${item.sourceType} / ${CONFIDENCE_LABELS[item.confidence] || "可信度：中"}`) : ["暂无"])
+        ].join("\n");
+      }
+
+      function buildHighlightsCopy(items) {
+        return [
+          "【本集名场面 / 金句】",
+          ...(items.length ? items.map((item, index) => `${index + 1}. ${item.quote}\n说话人：${item.speaker}\n场景背景：${item.context}\n更深含义：${item.deeperMeaning || "未补充"}\n来源：${item.sourceType} / ${SPOILER_LABELS[item.spoilerLevel] || "轻剧透"} / ${CONFIDENCE_LABELS[item.confidence] || "可信度：中"}`) : ["暂无"])
+        ].join("\n");
+      }
+
+      function buildSpoilersCopy(spoilers) {
+        const lines = ["【伏笔与后续（剧透）】", spoilers.warning || "以下内容包含原著剧透", ""];
+        lines.push("本集埋下的伏笔：");
+        if (spoilers.foreshadowing.length) {
+          spoilers.foreshadowing.forEach((item, index) => {
+            lines.push(`${index + 1}. ${item.hint}`);
+            lines.push(`后续兑现：${item.futurePayoff}`);
+            lines.push(`来源：${item.sourceType} / ${CONFIDENCE_LABELS[item.confidence] || "可信度：中"}`);
+          });
+        } else {
+          lines.push("暂无");
+        }
+        lines.push("");
+        lines.push(`当前剧情线后续走向：${spoilers.futureDirection.text || "暂无"}`);
+        lines.push(`角色命运走向：${spoilers.characterFates.text || "暂无"}`);
+        lines.push(`动画与原著的差异：${spoilers.adaptationDifferences.text || "暂无"}`);
+        return lines.join("\n");
+      }
+
+      function renderScrollIllustration() {
+        return `
+          <svg class="state-illustration float" viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="54" y="44" width="172" height="94" rx="16" fill="rgba(232,224,212,0.06)" stroke="rgba(201,169,110,0.46)"/>
+            <path d="M62 60C84 44 110 40 140 40C170 40 196 44 218 60" stroke="rgba(201,169,110,0.55)" stroke-width="2"/>
+            <path d="M62 122C84 138 110 142 140 142C170 142 196 138 218 122" stroke="rgba(91,140,122,0.52)" stroke-width="2"/>
+            <path d="M84 76H196" stroke="rgba(232,224,212,0.24)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M84 92H186" stroke="rgba(232,224,212,0.18)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M84 108H172" stroke="rgba(232,224,212,0.14)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="48" cy="91" r="18" fill="rgba(91,140,122,0.18)" stroke="rgba(91,140,122,0.55)"/>
+            <circle cx="232" cy="91" r="18" fill="rgba(201,169,110,0.14)" stroke="rgba(201,169,110,0.55)"/>
+          </svg>
+        `;
+      }
+
+      function renderBookIllustration() {
+        return `
+          <svg class="state-illustration" viewBox="0 0 320 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="float" d="M46 144L132 72C140 66 152 66 160 72L274 152" stroke="rgba(201,169,110,0.66)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M44 144V64C44 55 50 48 59 48H135C145 48 153 56 153 66V164C153 156 146 150 138 150H59C50 150 44 153 44 144Z" fill="rgba(232,224,212,0.06)" stroke="rgba(232,224,212,0.18)"/>
+            <path d="M276 144V64C276 55 270 48 261 48H185C175 48 167 56 167 66V164C167 156 174 150 182 150H261C270 150 276 153 276 144Z" fill="rgba(91,140,122,0.08)" stroke="rgba(91,140,122,0.28)"/>
+            <path class="pulse" d="M72 76H126M72 94H126M72 112H116" stroke="rgba(232,224,212,0.26)" stroke-width="3" stroke-linecap="round"/>
+            <path class="pulse" d="M194 76H248M194 94H248M194 112H236" stroke="rgba(232,224,212,0.22)" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        `;
+      }
+
+      function renderMistIllustration() {
+        return `
+          <svg class="state-illustration" viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M28 124C64 94 96 110 126 90C162 66 198 68 252 108" stroke="rgba(201,169,110,0.4)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M34 140C68 122 104 126 142 116C178 108 214 114 248 132" stroke="rgba(232,224,212,0.2)" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="142" cy="64" r="22" fill="rgba(139,58,58,0.18)" stroke="rgba(139,58,58,0.48)"/>
+            <path d="M140 52V78M127 65H153" stroke="rgba(243,209,209,0.78)" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        `;
+      }
+
+      function escapeHTML(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function escapeAttribute(value) {
+        return escapeHTML(value).replace(/`/g, "&#96;");
+      }
+
+    })();
+  </script>
+</body>
+</html>
