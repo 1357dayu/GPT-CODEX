@@ -1,2 +1,0 @@
-# GPT-CODEX
-GPT CODEX
